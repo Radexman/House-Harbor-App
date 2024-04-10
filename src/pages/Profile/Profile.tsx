@@ -1,3 +1,5 @@
+import ThemeToggler from '../../components/layout/ThemeToggler/ThemeToggler';
+
 function Profile() {
   return (
     <div className="container mx-auto p-4">
@@ -13,6 +15,7 @@ function Profile() {
             harum molestias optio at sit officia!
           </p>
         </div>
+        <ThemeToggler />
       </main>
     </div>
   );

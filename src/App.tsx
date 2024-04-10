@@ -6,6 +6,7 @@ import Profile from './pages/Profile/Profile';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import Navbar from './components/layout/Navbar/Navbar';
+import BottomNavbar from './components/layout/BottomNavbar/BottomNavbar';
 
 function App() {
   return (
@@ -18,9 +19,9 @@ function App() {
         <Route path="/profile" element={<SignIn />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        {/* @TODO Not Fund Page */}
-        {/*  @TODO Mobile Navbar */}
+        {/* @TODO Not Found Page */}
       </Routes>
+      <BottomNavbar />
     </>
     // @TODO Footer
   );
