@@ -6,29 +6,29 @@ import { FaUser as ProfileIcon } from 'react-icons/fa';
 function BottomNavbar() {
   const location = useLocation();
 
-  const pathMathRoute = (route: string): string | undefined => {
+  const setActiveNavButton = (route: string): string | undefined => {
     if (route === location.pathname) {
-      return 'active text-primary';
+      return 'active text-primary bg-base-200';
     }
     return undefined;
   };
 
   return (
     <nav className="block md:hidden">
-      <div className="btm-nav">
-        <Link to="/" className={pathMathRoute('/')}>
+      <div className="btm-nav bg-base-200">
+        <Link to="/" className={setActiveNavButton('/')}>
           <button type="button">
-            <ExploreIcon />
+            <ExploreIcon size={20} />
           </button>
         </Link>
-        <Link to="/offers" className={pathMathRoute('/offers')}>
+        <Link to="/offers" className={setActiveNavButton('/offers')}>
           <button type="button">
-            <OffersIcon />
+            <OffersIcon size={20} />
           </button>
         </Link>
-        <Link to="/profile" className={pathMathRoute('/profile')}>
+        <Link to="/profile" className={setActiveNavButton('/profile')}>
           <button type="button">
-            <ProfileIcon />
+            <ProfileIcon size={20} />
           </button>
         </Link>
       </div>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
-    <nav>
+    <nav className="hidden md:block">
       <div className="navbar bg-base-100 shadow-lg">
         <div className="flex-1">
           <Link to="/" className="text-xl font-semibold ">
