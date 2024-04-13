@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
@@ -8,33 +9,29 @@ import {
   FaEnvelope as EmailIcon,
   FaLock as PasswordIcon,
 } from 'react-icons/fa';
-
 import { FaEyeSlash as NotVisibleIcon } from 'react-icons/fa6';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 
+type FormDataTypes = {
+  email: string;
+  password: string;
+};
+
 function SignIn() {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const [formData, setFormData] = useState({
-    name: '',
-    password: '',
-  });
-  const { register, control, handleSubmit } = useForm({
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const { register, control, handleSubmit } = useForm<FormDataTypes>({
     mode: 'onChange',
   });
-  const { email, password } = formData;
   const navigate = useNavigate();
-
-  const setPasswordVisibility = (passwordState: boolean): string => {
-    if (passwordState) {
-      return 'text';
-    }
-    return 'password';
-  };
 
   const toggleVisibility = () => setIsPasswordVisible((prevState) => !prevState);
 
+  const handleFormSubmit = (formData: FormDataTypes) => {
+    console.log(formData);
+  };
+
   return (
-    <div className="">
+    <div>
       <main className="space-y-2">
         <div className="hero min-h-[93vh]" style={{ backgroundImage: `url(${bgImage})` }}>
           <div className="hero-overlay bg-opacity-80 sm:bg-opacity-70" />
@@ -47,18 +44,26 @@ function SignIn() {
                   Google account.
                 </p>
               </header>
-              <form className="card-body">
+              <form onSubmit={handleSubmit(handleFormSubmit)} className="card-body">
                 <div className="form-control">
                   <label htmlFor="email" className="input input-bordered flex items-center gap-2">
                     <EmailIcon />
-                    <input type="text" id="email" name="email" className="grow" placeholder="Email" />
+                    <input
+                      {...register('email')}
+                      type="text"
+                      id="email"
+                      name="email"
+                      className="grow"
+                      placeholder="Email"
+                    />
                   </label>
                 </div>
                 <div className="form-control">
                   <label htmlFor="password" className="input input-bordered flex items-center gap-2">
                     <PasswordIcon />
                     <input
-                      type={setPasswordVisibility(isPasswordVisible)}
+                      {...register('password')}
+                      type={isPasswordVisible ? 'text' : 'password'}
                       id="password"
                       name="password"
                       className="grow"
@@ -91,6 +96,7 @@ function SignIn() {
           </div>
         </div>
       </main>
+      <DevTool control={control} />
     </div>
   );
 }
