@@ -11,22 +11,18 @@ import {
 } from 'react-icons/fa';
 import { FaEyeSlash as NotVisibleIcon } from 'react-icons/fa6';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
-
-type FormDataTypes = {
-  email: string;
-  password: string;
-};
+import SignInFormTypes from './SignIn.types';
 
 function SignIn() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { register, control, handleSubmit } = useForm<FormDataTypes>({
+  const { register, control, handleSubmit } = useForm<SignInFormTypes>({
     mode: 'onChange',
   });
   const navigate = useNavigate();
 
   const toggleVisibility = () => setIsPasswordVisible((prevState) => !prevState);
 
-  const handleFormSubmit = (formData: FormDataTypes) => {
+  const handleFormSubmit = (formData: SignInFormTypes) => {
     console.log(formData);
   };
 
@@ -55,6 +51,7 @@ function SignIn() {
                       name="email"
                       className="grow"
                       placeholder="Email"
+                      required
                     />
                   </label>
                 </div>
@@ -68,6 +65,7 @@ function SignIn() {
                       name="password"
                       className="grow"
                       placeholder="Password"
+                      required
                     />
                     <button type="button" onClick={toggleVisibility}>
                       {isPasswordVisible ? <VisibleIcon /> : <NotVisibleIcon />}
