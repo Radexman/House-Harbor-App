@@ -17,6 +17,7 @@ import { FaEyeSlash as NotVisibleIcon } from 'react-icons/fa6';
 import initApp, { db } from '../../firebase.config';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 import SignUpFormTypes from './SignUp.types';
+import OAuth from '../../components/OAuth/OAuth';
 
 function SignUp() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -117,9 +118,8 @@ function SignUp() {
                     <ArrowIcon />
                   </button>
                 </div>
+                <OAuth />
               </form>
-
-              {/* Google OAuth */}
               <div className="text-center text-sm">
                 <p>Already have an account?</p>
                 <Link to="/sign-in" className="underline hover:text-primary">

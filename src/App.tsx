@@ -10,10 +10,11 @@ import SignUp from './pages/SignUp/SignUp';
 import Navbar from './components/layout/Navbar/Navbar';
 import BottomNavbar from './components/layout/BottomNavbar/BottomNavbar';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import AppContextProvider from './context/AppContext';
 
 function App() {
   return (
-    <>
+    <AppContextProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Explore />} />
@@ -28,7 +29,8 @@ function App() {
       </Routes>
       <BottomNavbar />
       <ToastContainer position="bottom-left" />
-    </>
+    </AppContextProvider>
+
     // @TODO Footer
   );
 }
