@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 import Explore from './pages/Explore/Explore';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Offers from './pages/Offers/Offers';
@@ -22,6 +24,7 @@ function App() {
         {/* @TODO Not Found Page */}
       </Routes>
       <BottomNavbar />
+      <ToastContainer position="bottom-left" />
     </>
     // @TODO Footer
   );
