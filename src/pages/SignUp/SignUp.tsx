@@ -38,7 +38,7 @@ function SignUp() {
         displayName: username,
       });
 
-      const formData = { email, username, timestamp: serverTimestamp(), theme: '', avatar: '' };
+      const formData = { email, username, timestamp: serverTimestamp() };
 
       await setDoc(doc(db, 'users', user.uid), formData);
 
