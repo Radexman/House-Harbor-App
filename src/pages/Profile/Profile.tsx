@@ -8,6 +8,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import app, { db } from '../../firebase.config';
+import Spinner from '../../components/Spinner/Spinner';
 
 function Profile() {
   const auth = getAuth(app);
