@@ -21,7 +21,7 @@ function Profile() {
     mode: 'onChange',
   });
 
-  const { email } = user;
+  const { email, name } = user;
 
   const { username } = watch();
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ function Profile() {
   return (
     <div className="container mx-auto p-4">
       <header className="pb-6 text-center md:text-left">
-        <h1 className="text-3xl font-semibold uppercase tracking-wide">My Profile</h1>
+        <h1 className="text-3xl font-semibold uppercase tracking-wide">{`${name}'s profile`}</h1>
       </header>
       <main>
         <div className="space-y-3 rounded-sm p-4 shadow-lg">
