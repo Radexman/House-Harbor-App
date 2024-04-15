@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { DevTool } from '@hookform/devtools';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -10,20 +11,31 @@ import {
   FaLock as PasswordIcon,
 } from 'react-icons/fa';
 import { FaEyeSlash as NotVisibleIcon } from 'react-icons/fa6';
+import app from '../../firebase.config';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 import SignInFormTypes from './SignIn.types';
 
 function SignIn() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { register, control, handleSubmit } = useForm<SignInFormTypes>({
+  const { register, control, handleSubmit, watch } = useForm<SignInFormTypes>({
     mode: 'onChange',
   });
+  const { email, password } = watch();
   const navigate = useNavigate();
 
   const toggleVisibility = () => setIsPasswordVisible((prevState) => !prevState);
 
-  const handleFormSubmit = (formData: SignInFormTypes) => {
-    console.log(formData);
+  const handleFormSubmit = async () => {
+    try {
+      const auth = getAuth(app);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+      if (userCredential.user) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
