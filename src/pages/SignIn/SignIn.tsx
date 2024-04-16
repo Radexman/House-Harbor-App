@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -12,12 +12,15 @@ import {
   FaLock as PasswordIcon,
 } from 'react-icons/fa';
 import { FaEyeSlash as NotVisibleIcon } from 'react-icons/fa6';
+import { AppContext } from '../../context/AppContext';
 import app from '../../firebase.config';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 import SignInFormTypes from './SignIn.types';
 import OAuth from '../../components/OAuth/OAuth';
+import Spinner from '../../components/Spinner/Spinner';
 
 function SignIn() {
+  const { isLoading } = useContext(AppContext);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { register, control, handleSubmit, watch } = useForm<SignInFormTypes>({
     mode: 'onChange',
@@ -42,6 +45,7 @@ function SignIn() {
 
   return (
     <div>
+      {isLoading ? <Spinner /> : null}
       <main className="space-y-2">
         <div className="hero min-h-[93vh]" style={{ backgroundImage: `url(${bgImage})` }}>
           <div className="hero-overlay bg-opacity-80 sm:bg-opacity-70" />

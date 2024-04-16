@@ -1,18 +1,11 @@
-import { useState, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
-import { toast } from 'react-toastify';
-import app, { db } from '../../firebase.config';
-import Spinner from '../Spinner/Spinner';
 import { AppContext } from '../../context/AppContext';
 
 function OAuth() {
   const { onGoogleClick } = useContext(AppContext);
-  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   return (
     <div className="text-center">

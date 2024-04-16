@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
@@ -10,10 +10,12 @@ import app, { db } from '../firebase.config';
 export const AppContext = createContext({} as ContextProps);
 
 function AppContextProvider({ children }: AppContextPropTypes) {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const onGoogleClick = async () => {
     try {
+      setIsLoading(true);
       const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
@@ -29,6 +31,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
           timestamp: serverTimestamp(),
         });
       }
+      setIsLoading(false);
 
       navigate('/');
     } catch (error) {
@@ -36,7 +39,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
     }
   };
 
-  return <AppContext.Provider value={{ onGoogleClick }}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{ isLoading, onGoogleClick }}>{children}</AppContext.Provider>;
 }
 
 export default AppContextProvider;

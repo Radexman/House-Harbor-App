@@ -5,5 +5,6 @@ export type AppContextPropTypes = {
 };
 
 export type ContextProps = {
+  isLoading: boolean;
   onGoogleClick: () => void;
 };
