@@ -9,6 +9,7 @@ function Explore() {
         <h1 className="text-center text-4xl font-semibold md:text-left">Explore</h1>
       </header>
       <main>
+        {/* @TODO Slider */}
         <p className="py-4 text-justify md:text-left">
           Welcome to our House Harbor! Whether you&apos;re in search of your dream home to buy or a cozy place to rent,
           explore our diverse selection of listings. Browse through our collection of available properties categorized
@@ -17,7 +18,7 @@ function Explore() {
         <div className="mx-auto flex flex-col items-center justify-center gap-6 md:flex-row">
           <Link
             to="/category/sale"
-            className="w-full rounded-xl shadow-lg transition-all duration-200 hover:shadow-2xl md:w-1/2"
+            className="w-full rounded-xl shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary md:w-1/2"
           >
             <div className="card rounded-xl bg-base-200 transition-all duration-200">
               <figure>
@@ -34,7 +35,7 @@ function Explore() {
           </Link>
           <Link
             to="category/rent"
-            className="w-full rounded-xl shadow-lg transition-all duration-200 hover:shadow-2xl md:w-1/2"
+            className="w-full rounded-xl shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary md:w-1/2"
           >
             <div className="card rounded-xl bg-base-200  transition-all duration-200">
               <figure>
