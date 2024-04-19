@@ -28,7 +28,7 @@ function Category() {
     <div className="container mx-auto p-4">
       <header className="pb-4 text-center md:text-left">
         <h1 className="text-3xl font-semibold uppercase tracking-wide">{`Places For ${
-          params.categoryName === 'rent' ? 'Sale' : 'Rent'
+          params.categoryName === 'sale' ? 'Sale' : 'Rent'
         }`}</h1>
       </header>
       <div>
@@ -41,7 +41,7 @@ function Category() {
               {!isLoading && listings && listings.length > 0 && (
                 <ul>
                   {listings.map((listing) => (
-                    <ListingItem listing={listing} />
+                    <ListingItem key={listing.id} listing={listing} />
                   ))}
                 </ul>
               )}

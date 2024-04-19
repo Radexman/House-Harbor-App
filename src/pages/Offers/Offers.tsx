@@ -1,18 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect } from 'react';
+import { AppContext } from '../../context/AppContext';
+import ListingItem from '../../components/ListingItem/ListingItem';
+import Spinner from '../../components/Spinner/Spinner';
+
 function Offers() {
+  const { isLoading, offerListings, fetchOffersListings } = useContext(AppContext);
+
+  useEffect(() => {
+    fetchOffersListings();
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
-      <header className="pb-6 text-center md:text-left">
-        <h1 className="text-3xl font-semibold uppercase tracking-wide">Offers</h1>
+      {isLoading ? <Spinner /> : null}
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold">Offers</h1>
+        <p className="pt-2">
+          Explore our discounted featured offers. These properties are available for rent at reduced rates from their
+          initial prices. Find your perfect living space today and seize the opportunity to save on your dream property.
+        </p>
       </header>
       <main className="space-y-2">
-        <div>
-          <h2 className="text-center text-xl font-semibold md:text-left">Content</h2>
-          <p className="md:text-left1 text-justify">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi harum expedita ducimus ab inventore. Quod,
-            mollitia earum error architecto modi fugiat nulla autem doloremque iusto eligendi magni perferendis maiores
-            harum molestias optio at sit officia!
-          </p>
-        </div>
+        <ul>
+          {offerListings.map((listing) => (
+            <ListingItem key={listing.id} listing={listing} />
+          ))}
+        </ul>
       </main>
     </div>
   );

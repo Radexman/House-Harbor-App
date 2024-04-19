@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { FaTrash as DeleteIcon, FaBath as BathroomIcon } from 'react-icons/fa';
+import { FaBath as BathroomIcon } from 'react-icons/fa';
 import { IoIosBed as BedroomIcon } from 'react-icons/io';
 import { ListingItemProps } from './ListingItem.types';
 
 function ListingItem({ listing }: ListingItemProps) {
   const { type, imageUrls, name, location, offer, discountedPrice, regularPrice, bedrooms, bathrooms } = listing.data;
   return (
-    <li key={listing.id}>
+    <li>
       <Link
         to={`/category/${type}/${listing.id}`}
         className="flex flex-col gap-3 rounded-lg bg-base-200 p-3 shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary sm:flex-row"
@@ -22,6 +22,7 @@ function ListingItem({ listing }: ListingItemProps) {
             {offer
               ? discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               : regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            {type === 'rent' && ' / Month'}
           </p>
 
           <div className="flex items-center gap-1">

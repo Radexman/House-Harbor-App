@@ -25,7 +25,7 @@ function Explore() {
                 <img src={saleImage} alt="Properties for sale page" />
               </figure>
               <div className="card-body">
-                <h2 className="card-title">Properties For Rent</h2>
+                <h2 className="card-title">Properties For Sale</h2>
                 <p>
                   Discover your dream home for sale here. Explore a variety of houses on the market, from charming
                   cottages to luxurious estates.
@@ -42,7 +42,7 @@ function Explore() {
                 <img src={rentImage} alt="Properties for rent page" />
               </figure>
               <div className="card-body">
-                <h2 className="card-title">Properties For Sale</h2>
+                <h2 className="card-title">Properties For Rent</h2>
                 <p>
                   Find your perfect rental home here. Explore a range of houses available for rent, from cozy apartments
                   to spacious family homes.

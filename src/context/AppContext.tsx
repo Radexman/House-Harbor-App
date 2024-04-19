@@ -28,7 +28,7 @@ export const AppContext = createContext({} as ContextProps);
 function AppContextProvider({ children }: AppContextPropTypes) {
   const auth = getAuth(app);
   const [listings, setListings] = useState<FetchedDataTypes[]>([]);
-
+  const [offerListings, setOfferListings] = useState<FetchedDataTypes[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -88,6 +88,36 @@ function AppContextProvider({ children }: AppContextPropTypes) {
     }
   };
 
+  // Fetch listings for offers page
+  const fetchOffersListings = async () => {
+    try {
+      setIsLoading(true);
+
+      // Get reference
+      const listingsRef = collection(db, 'listings');
+
+      // Create a query
+      const q = query(listingsRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(10));
+
+      // Execute query
+      const querySnap = await getDocs(q);
+
+      const listingsArr: FetchedDataTypes[] = [];
+
+      querySnap.forEach((doc) => {
+        return listingsArr.push({
+          id: doc.id,
+          data: doc.data() as ListingType,
+        });
+      });
+
+      setOfferListings(listingsArr);
+      setIsLoading(false);
+    } catch (error) {
+      toast.error('Could not fetch listings');
+    }
+  };
+
   // Sign up / sing in with Google
   const onGoogleClick = async () => {
     try {
@@ -119,8 +149,10 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       value={{
         isLoading,
         listings,
+        offerListings,
         onGoogleClick,
         fetchListings,
+        fetchOffersListings,
         handleLogout,
         handleChangeDetails,
       }}
