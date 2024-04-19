@@ -7,7 +7,7 @@ export type ListingType = {
   imageUrls: string[];
   discountedPrice: number;
   geolocation: GeoPoint;
-  type: string;
+  type: 'rent' | 'sale';
   bathrooms: number;
   bedrooms: number;
   offer: boolean;

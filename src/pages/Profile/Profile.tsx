@@ -3,8 +3,10 @@ import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { getAuth } from 'firebase/auth';
-import { FaUser as UsernameIcon } from 'react-icons/fa';
+import { FaUser as UsernameIcon, FaLongArrowAltRight as ArrowIcon } from 'react-icons/fa';
+import { IoHome as HomeIcon } from 'react-icons/io5';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import app from '../../firebase.config';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
@@ -61,10 +63,18 @@ function Profile() {
                   </label>
                   <p>{email}</p>
                 </form>
-
-                <button type="button" className="btn" onClick={handleLogout}>
-                  Logout
-                </button>
+                <div className="flex flex-col items-center justify-between gap-3 pt-6 sm:flex-row">
+                  <Link to="/create-listing">
+                    <button type="button" className="btn btn-primary btn-wide">
+                      Create Listing
+                      <HomeIcon />
+                    </button>
+                  </Link>
+                  <button type="button" className="btn btn-wide" onClick={handleLogout}>
+                    Logout
+                    <ArrowIcon />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

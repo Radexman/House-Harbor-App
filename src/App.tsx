@@ -5,6 +5,7 @@ import Explore from './pages/Explore/Explore';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Offers from './pages/Offers/Offers';
 import Profile from './pages/Profile/Profile';
+import CreateListing from './pages/CreateListing/CreateListing';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import Category from './pages/Category/Category';
@@ -25,6 +26,7 @@ function App() {
         <Route path="/profile" element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
+        <Route path="/create-listing" element={<CreateListing />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         {/* @TODO Not Found Page */}
