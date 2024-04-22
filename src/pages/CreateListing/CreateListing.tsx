@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef, FormEvent, ChangeEvent } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getStorage, ref } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import app from '../../firebase.config';
 import Spinner from '../../components/Spinner/Spinner';
 
 // Potential firebase error could occud due to difference in the field names, imageUrls and images
 
 function CreateListing() {
-  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
+  const [geolocationEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: 'rent',
@@ -21,14 +23,13 @@ function CreateListing() {
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
-    images: {},
+    images: [],
     latitude: 0,
     longitude: 0,
   });
 
   const {
     type,
-    userRef,
     name,
     bedrooms,
     bathrooms,
@@ -63,19 +64,64 @@ function CreateListing() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+
+    setIsLoading(true);
+
+    if (discountedPrice >= regularPrice) {
+      setIsLoading(false);
+      toast.error('Discounted price should be lower than regular price');
+    }
+
+    if (images.length > 6) {
+      setIsLoading(false);
+      toast.error('Max 6 images');
+    }
+
+    const geolocation = {
+      lat: 0,
+      lng: 0,
+    };
+
+    let location = '';
+
+    if (geolocationEnabled) {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_GEOCODE_API_URL}?address=${address}&key=${
+          import.meta.env.VITE_APP_GEOCODE_API_KEY
+        }`
+      );
+      const data = await response.json();
+
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
+
+      location =
+        data.status === 'ZERO_RESULTS'
+          ? undefined
+          : data.results[0]?.formatted_address;
+
+      if (location === undefined || location.includes('undefined')) {
+        setIsLoading(false);
+        toast.error('Please provide correct address');
+      }
+    } else {
+      geolocation.lat = latitude;
+      geolocation.lng = longitude;
+      location = address;
+    }
+    setIsLoading(false);
   };
 
-  type FormEvent =
+  type FormEventTypes =
     | MouseEvent<HTMLButtonElement>
     | ChangeEvent<HTMLInputElement>
     | ChangeEvent<HTMLTextAreaElement>
     | ChangeEvent<HTMLInputElement & { files: FileList }>;
 
-  const handleMutate = (e: FormEvent) => {
-    let boolean = null;
+  const handleMutate = (e: FormEventTypes) => {
+    let boolean: boolean | null = null;
 
     if (e.target.value === 'true') {
       boolean = true;
@@ -104,7 +150,9 @@ function CreateListing() {
     <div className="container mx-auto mb-16 p-4">
       {isLoading ? <Spinner /> : null}
       <header className="mb-4">
-        <h1 className="text-3xl font-semibold tracking-wide">Create a Listing</h1>
+        <h1 className="text-3xl font-semibold tracking-wide">
+          Create a Listing
+        </h1>
       </header>
       <main>
         <form onSubmit={handleFormSubmit}>
@@ -116,7 +164,9 @@ function CreateListing() {
                 id="type"
                 value="sale"
                 onClick={handleMutate}
-                className={`${type === 'sale' ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                className={`${
+                  type === 'sale' ? 'btn-primary' : ''
+                } btn w-36 md:btn-wide`}
               >
                 Sell
               </button>
@@ -125,7 +175,9 @@ function CreateListing() {
                 id="type"
                 value="rent"
                 onClick={handleMutate}
-                className={`${type === 'rent' ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                className={`${
+                  type === 'rent' ? 'btn-primary' : ''
+                } btn w-36 md:btn-wide`}
               >
                 Rent
               </button>
@@ -133,7 +185,11 @@ function CreateListing() {
             <div className="divider" />
             <div className="flex flex-col space-y-4">
               <p className="text-lg font-semibold">Name</p>
-              <label htmlFor="name" id="name" className="input input-bordered flex items-center gap-2">
+              <label
+                htmlFor="name"
+                id="name"
+                className="input input-bordered flex items-center gap-2"
+              >
                 <input
                   type="text"
                   id="name"
@@ -148,7 +204,11 @@ function CreateListing() {
             <div className="flex space-x-6">
               <div className="flex flex-col space-y-4">
                 <p className="text-lg font-semibold">Bedrooms</p>
-                <label htmlFor="bedrooms" id="bedrooms" className="input input-bordered flex items-center gap-2">
+                <label
+                  htmlFor="bedrooms"
+                  id="bedrooms"
+                  className="input input-bordered flex items-center gap-2"
+                >
                   <input
                     type="number"
                     id="bedrooms"
@@ -163,7 +223,11 @@ function CreateListing() {
               </div>
               <div className="flex flex-col space-y-4">
                 <p className="text-lg font-semibold">Bathrooms</p>
-                <label htmlFor="bathrooms" id="bathrooms" className="input input-bordered flex items-center gap-2">
+                <label
+                  htmlFor="bathrooms"
+                  id="bathrooms"
+                  className="input input-bordered flex items-center gap-2"
+                >
                   <input
                     type="number"
                     id="bathrooms"
@@ -186,7 +250,9 @@ function CreateListing() {
                   id="parking"
                   value="true"
                   onClick={handleMutate}
-                  className={`${parking ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                  className={`${
+                    parking ? 'btn-primary' : ''
+                  } btn w-36 md:btn-wide`}
                 >
                   Yes
                 </button>
@@ -195,7 +261,9 @@ function CreateListing() {
                   id="parking"
                   value="false"
                   onClick={handleMutate}
-                  className={`${!parking && parking !== null ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                  className={`${
+                    !parking && parking !== null ? 'btn-primary' : ''
+                  } btn w-36 md:btn-wide`}
                 >
                   No
                 </button>
@@ -210,7 +278,9 @@ function CreateListing() {
                   id="furnished"
                   value="true"
                   onClick={handleMutate}
-                  className={`${furnished ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                  className={`${
+                    furnished ? 'btn-primary' : ''
+                  } btn w-36 md:btn-wide`}
                 >
                   Yes
                 </button>
@@ -219,7 +289,9 @@ function CreateListing() {
                   id="furnished"
                   value="false"
                   onClick={handleMutate}
-                  className={`${!furnished && furnished !== null ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                  className={`${
+                    !furnished && furnished !== null ? 'btn-primary' : ''
+                  } btn w-36 md:btn-wide`}
                 >
                   No
                 </button>
@@ -240,7 +312,11 @@ function CreateListing() {
               {!geolocationEnabled && (
                 <div className="flex flex-col space-y-4">
                   <p className="text-lg font-semibold">Latitude</p>
-                  <label htmlFor="latitude" id="latitude" className="input input-bordered flex items-center gap-2">
+                  <label
+                    htmlFor="latitude"
+                    id="latitude"
+                    className="input input-bordered flex items-center gap-2"
+                  >
                     <input
                       type="text"
                       id="latitude"
@@ -251,7 +327,11 @@ function CreateListing() {
                     />
                   </label>
                   <p className="text-lg font-semibold">Longitude</p>
-                  <label htmlFor="longitude" id="longitude" className="input input-bordered flex items-center gap-2">
+                  <label
+                    htmlFor="longitude"
+                    id="longitude"
+                    className="input input-bordered flex items-center gap-2"
+                  >
                     <input
                       type="text"
                       id="longitude"
@@ -273,7 +353,9 @@ function CreateListing() {
                   id="offer"
                   value="true"
                   onClick={handleMutate}
-                  className={`${offer ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                  className={`${
+                    offer ? 'btn-primary' : ''
+                  } btn w-36 md:btn-wide`}
                 >
                   Yes
                 </button>
@@ -282,7 +364,9 @@ function CreateListing() {
                   id="offer"
                   value="false"
                   onClick={handleMutate}
-                  className={`${!offer && offer !== null ? 'btn-primary' : ''} btn w-36 md:btn-wide`}
+                  className={`${
+                    !offer && offer !== null ? 'btn-primary' : ''
+                  } btn w-36 md:btn-wide`}
                 >
                   No
                 </button>
@@ -334,7 +418,9 @@ function CreateListing() {
                         required
                       />
                       <p className="font-semibold">$</p>
-                      {type === 'rent' && <p className="font-semibold"> / Month</p>}
+                      {type === 'rent' && (
+                        <p className="font-semibold"> / Month</p>
+                      )}
                     </label>
                   </div>
                 </div>
