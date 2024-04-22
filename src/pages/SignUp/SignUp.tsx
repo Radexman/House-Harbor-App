@@ -42,6 +42,7 @@ function SignUp() {
         email,
         password
       );
+
       const { user } = userCredential;
 
       updateProfile(auth.currentUser!, {
