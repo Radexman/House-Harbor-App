@@ -124,9 +124,7 @@ function CreateListing() {
 
     if (geolocationEnabled) {
       const response = await fetch(
-        `${import.meta.env.VITE_APP_GEOCODE_API_URL}?address=${address}&key=${
-          import.meta.env.VITE_APP_GEOCODE_API_KEY
-        }`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAFnkmBQOkcKHTVMansrJrFMqeXeLaQe4k`
       );
       const data = await response.json();
 
