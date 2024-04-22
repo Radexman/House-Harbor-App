@@ -6,14 +6,18 @@ function Explore() {
   return (
     <div className="container mx-auto mb-20 p-4">
       <header>
-        <h1 className="text-center text-4xl font-semibold md:text-left">Explore</h1>
+        <h1 className="text-center text-4xl font-semibold md:text-left">
+          Explore
+        </h1>
       </header>
       <main>
         {/* @TODO Slider */}
         <p className="py-4 text-justify md:text-left">
-          Welcome to our House Harbor! Whether you&apos;re in search of your dream home to buy or a cozy place to rent,
-          explore our diverse selection of listings. Browse through our collection of available properties categorized
-          conveniently for sale or rent, and embark on your journey to find the perfect place to call home.
+          Welcome to our House Harbor! Whether you&apos;re in search of your
+          dream home to buy or a cozy place to rent, explore our diverse
+          selection of listings. Browse through our collection of available
+          properties categorized conveniently for sale or rent, and embark on
+          your journey to find the perfect place to call home.
         </p>
         <div className="mx-auto flex flex-col items-center justify-center gap-6 md:flex-row">
           <Link
@@ -27,8 +31,9 @@ function Explore() {
               <div className="card-body">
                 <h2 className="card-title">Properties For Sale</h2>
                 <p>
-                  Discover your dream home for sale here. Explore a variety of houses on the market, from charming
-                  cottages to luxurious estates.
+                  Discover your dream home for sale here. Explore a variety of
+                  houses on the market, from charming cottages to luxurious
+                  estates.
                 </p>
               </div>
             </div>
@@ -44,8 +49,9 @@ function Explore() {
               <div className="card-body">
                 <h2 className="card-title">Properties For Rent</h2>
                 <p>
-                  Find your perfect rental home here. Explore a range of houses available for rent, from cozy apartments
-                  to spacious family homes.
+                  Find your perfect rental home here. Explore a range of houses
+                  available for rent, from cozy apartments to spacious family
+                  homes.
                 </p>
               </div>
             </div>

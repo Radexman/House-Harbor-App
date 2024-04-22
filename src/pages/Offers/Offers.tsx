@@ -5,7 +5,8 @@ import ListingItem from '../../components/ListingItem/ListingItem';
 import Spinner from '../../components/Spinner/Spinner';
 
 function Offers() {
-  const { isLoading, offerListings, fetchOffersListings } = useContext(AppContext);
+  const { isLoading, offerListings, fetchOffersListings } =
+    useContext(AppContext);
 
   useEffect(() => {
     fetchOffersListings();
@@ -17,8 +18,10 @@ function Offers() {
       <header className="mb-8">
         <h1 className="text-4xl font-bold">Offers</h1>
         <p className="pt-2">
-          Explore our discounted featured offers. These properties are available for rent at reduced rates from their
-          initial prices. Find your perfect living space today and seize the opportunity to save on your dream property.
+          Explore our discounted featured offers. These properties are available
+          for rent at reduced rates from their initial prices. Find your perfect
+          living space today and seize the opportunity to save on your dream
+          property.
         </p>
       </header>
       <main className="space-y-2">

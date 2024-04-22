@@ -16,7 +16,12 @@ import {
   getDoc,
   serverTimestamp,
 } from 'firebase/firestore';
-import { getAuth, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  updateProfile,
+} from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { AppContextPropTypes, ContextProps } from './AppContext.types';
 import app, { db } from '../firebase.config';
@@ -67,7 +72,12 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       const listingsRef = collection(db, 'listings');
 
       // Create a query
-      const q = query(listingsRef, where('type', '==', category), orderBy('timestamp', 'desc'), limit(10));
+      const q = query(
+        listingsRef,
+        where('type', '==', category),
+        orderBy('timestamp', 'desc'),
+        limit(10)
+      );
 
       // Execute query
       const querySnap = await getDocs(q);
@@ -97,7 +107,12 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       const listingsRef = collection(db, 'listings');
 
       // Create a query
-      const q = query(listingsRef, where('offer', '==', true), orderBy('timestamp', 'desc'), limit(10));
+      const q = query(
+        listingsRef,
+        where('offer', '==', true),
+        orderBy('timestamp', 'desc'),
+        limit(10)
+      );
 
       // Execute query
       const querySnap = await getDocs(q);

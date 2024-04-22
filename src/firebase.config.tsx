@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APP_API_KEY,
+  apiKey: 'AIzaSyBWRqHJlIGHlol3aLI7m36F-j0CJYm05UA',
   authDomain: 'house-harbor.firebaseapp.com',
   projectId: 'house-harbor',
   storageBucket: 'house-harbor.appspot.com',

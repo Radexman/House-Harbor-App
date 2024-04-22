@@ -3,7 +3,10 @@ import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { getAuth } from 'firebase/auth';
-import { FaUser as UsernameIcon, FaLongArrowAltRight as ArrowIcon } from 'react-icons/fa';
+import {
+  FaUser as UsernameIcon,
+  FaLongArrowAltRight as ArrowIcon,
+} from 'react-icons/fa';
 import { IoHome as HomeIcon } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -37,20 +40,29 @@ function Profile() {
   return (
     <div>
       <main className="space-y-2">
-        <div className="hero min-h-[93vh]" style={{ backgroundImage: `url(${bgImage})` }}>
+        <div
+          className="hero min-h-[93vh]"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        >
           <div className="hero-overlay bg-opacity-90 sm:bg-opacity-70" />
           <div className="container">
             <div className="mx-auto max-w-2xl rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
               <div className="space-y-3 rounded-lg p-4 shadow-xl">
                 <h1 className="text-3xl font-semibold uppercase tracking-wide">{`${user.name}'s profile`}</h1>
-                <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-3">
+                <form
+                  onSubmit={handleSubmit(handleFormSubmit)}
+                  className="space-y-3"
+                >
                   <div className="flex items-center justify-between">
                     <h2 className="text-xl">Personal Details</h2>
                     <button type="submit" className="btn btn-outline btn-sm">
                       Change
                     </button>
                   </div>
-                  <label htmlFor="username" className="input input-bordered flex items-center gap-2">
+                  <label
+                    htmlFor="username"
+                    className="input input-bordered flex items-center gap-2"
+                  >
                     <UsernameIcon />
                     <input
                       {...register('username')}
@@ -70,7 +82,11 @@ function Profile() {
                       <HomeIcon />
                     </button>
                   </Link>
-                  <button type="button" className="btn btn-wide" onClick={handleLogout}>
+                  <button
+                    type="button"
+                    className="btn btn-wide"
+                    onClick={handleLogout}
+                  >
                     Logout
                     <ArrowIcon />
                   </button>

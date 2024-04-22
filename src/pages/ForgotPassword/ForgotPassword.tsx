@@ -5,16 +5,20 @@ import { DevTool } from '@hookform/devtools';
 import { Link } from 'react-router-dom';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { toast } from 'react-toastify';
-import { FaLongArrowAltRight as ArrowIcon, FaEnvelope as EmailIcon } from 'react-icons/fa';
+import {
+  FaLongArrowAltRight as ArrowIcon,
+  FaEnvelope as EmailIcon,
+} from 'react-icons/fa';
 import app from '../../firebase.config';
 import ForgotPasswordType from './ForgotPassword.types';
 import Spinner from '../../components/Spinner/Spinner';
 
 function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
-  const { register, watch, handleSubmit, control } = useForm<ForgotPasswordType>({
-    mode: 'onChange',
-  });
+  const { register, watch, handleSubmit, control } =
+    useForm<ForgotPasswordType>({
+      mode: 'onChange',
+    });
 
   const { email } = watch();
 
@@ -35,15 +39,24 @@ function ForgotPassword() {
       {isLoading ? <Spinner /> : null}
       <div className="container mx-auto p-4">
         <header className="pb-6 text-center md:text-left">
-          <h1 className="text-3xl font-semibold uppercase tracking-wide">Forgot Password</h1>
+          <h1 className="text-3xl font-semibold uppercase tracking-wide">
+            Forgot Password
+          </h1>
         </header>
         <main>
           <div className="mb-3 space-y-2 rounded-sm p-4 text-center shadow-lg md:text-left">
             <p>
-              Have you forgot your password? Worry not, simply input your email address and you will get reset link.
+              Have you forgot your password? Worry not, simply input your email
+              address and you will get reset link.
             </p>
-            <form onSubmit={handleSubmit(handleForgotPassword)} className="space-y-2">
-              <label htmlFor="email" className="input input-bordered flex items-center gap-2">
+            <form
+              onSubmit={handleSubmit(handleForgotPassword)}
+              className="space-y-2"
+            >
+              <label
+                htmlFor="email"
+                className="input input-bordered flex items-center gap-2"
+              >
                 <EmailIcon />
                 <input
                   {...register('email')}

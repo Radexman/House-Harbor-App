@@ -4,7 +4,17 @@ import { IoIosBed as BedroomIcon } from 'react-icons/io';
 import { ListingItemProps } from './ListingItem.types';
 
 function ListingItem({ listing }: ListingItemProps) {
-  const { type, imageUrls, name, location, offer, discountedPrice, regularPrice, bedrooms, bathrooms } = listing.data;
+  const {
+    type,
+    imageUrls,
+    name,
+    location,
+    offer,
+    discountedPrice,
+    regularPrice,
+    bedrooms,
+    bathrooms,
+  } = listing.data;
   return (
     <li>
       <Link
@@ -12,7 +22,11 @@ function ListingItem({ listing }: ListingItemProps) {
         className="flex flex-col gap-3 rounded-lg bg-base-200 p-3 shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary sm:flex-row"
       >
         <div>
-          <img src={imageUrls[0]} alt={`${name} house`} className="h-auto w-full rounded-md sm:h-32 sm:w-60" />
+          <img
+            src={imageUrls[0]}
+            alt={`${name} house`}
+            className="h-auto w-full rounded-md sm:h-32 sm:w-60"
+          />
         </div>
         <div>
           <p className="text-sm">{location}</p>
@@ -27,11 +41,15 @@ function ListingItem({ listing }: ListingItemProps) {
 
           <div className="flex items-center gap-1">
             <BedroomIcon />
-            <p className="text-sm">{bedrooms > 1 ? `${bedrooms} Bedrooms` : '1 Bedroom'}</p>
+            <p className="text-sm">
+              {bedrooms > 1 ? `${bedrooms} Bedrooms` : '1 Bedroom'}
+            </p>
           </div>
           <div className="flex items-center gap-1">
             <BathroomIcon />
-            <p className="text-sm">{bathrooms > 1 ? `${bathrooms} Bathrooms` : '1 Bathroom'}</p>
+            <p className="text-sm">
+              {bathrooms > 1 ? `${bathrooms} Bathrooms` : '1 Bathroom'}
+            </p>
           </div>
         </div>
       </Link>

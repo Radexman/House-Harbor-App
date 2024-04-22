@@ -9,7 +9,11 @@ function OAuth() {
 
   return (
     <div className="text-center">
-      <button onClick={onGoogleClick} type="button" className="btn btn-outline btn-primary w-full">
+      <button
+        onClick={onGoogleClick}
+        type="button"
+        className="btn btn-outline btn-primary w-full"
+      >
         Sign {location.pathname === '/sign-up' ? 'up' : 'in'} with
         <GoogleIcon />
         account
