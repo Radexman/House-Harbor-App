@@ -1,9 +1,16 @@
 import { useState, useEffect, useRef, FormEvent, ChangeEvent } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getStorage, ref } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
-import app from '../../firebase.config';
+import app, { db } from '../../firebase.config';
+
 import Spinner from '../../components/Spinner/Spinner';
 
 // Potential firebase error could occud due to difference in the field names, imageUrls and images
@@ -111,6 +118,53 @@ function CreateListing() {
       geolocation.lng = longitude;
       location = address;
     }
+
+    const storeImage = async (image) => {
+      return new Promise((resolve, reject) => {
+        const storage = getStorage(app);
+        const fileName = `${auth.currentUser!.uid}-${image.name}-${uuidv4()}`;
+
+        const storageRef = ref(storage, `images/${fileName}`);
+
+        const uploadTask = uploadBytesResumable(storageRef, image);
+
+        uploadTask.on(
+          'state_changed',
+          // (snapshot) => {
+          //   const transferProgress =
+          //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+          //   switch (snapshot.state) {
+          //     case 'paused':
+          //       console.log('Upload is paused');
+          //       break;
+          //     case 'running':
+          //       console.log('Upload is running');
+          //       break;
+          //     default:
+          //       console.log('OK');
+          //   }
+          // },
+          (error) => {
+            reject(error); // Rejecting the promise in case of an error
+          },
+          () => {
+            // Resolving the promise with the download URL when upload is complete
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              resolve(downloadURL);
+            });
+          }
+        );
+      });
+    };
+
+    const imageUrls = await Promise.all(
+      [...images].map((image) => storeImage(image))
+    ).catch(() => {
+      setIsLoading(false);
+      toast.error('Images not uploaded');
+    });
+
     setIsLoading(false);
   };
 
