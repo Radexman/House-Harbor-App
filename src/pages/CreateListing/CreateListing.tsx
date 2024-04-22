@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useRef, FormEvent, ChangeEvent } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
@@ -16,10 +17,28 @@ import Spinner from '../../components/Spinner/Spinner';
 
 // Potential firebase error could occud due to difference in the field names, imageUrls and images
 
+type FormDataTypes = {
+  type: 'rent' | 'sale';
+  userRef: string;
+  name: string;
+  bedrooms: number;
+  bathrooms: number;
+  parking: boolean;
+  furnished: boolean;
+  address: string | undefined;
+  location: string;
+  offer: boolean;
+  regularPrice: number;
+  discountedPrice: number | undefined;
+  images: FileList | undefined;
+  latitude: number;
+  longitude: number;
+};
+
 function CreateListing() {
   const [geolocationEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataTypes>({
     type: 'rent',
     userRef: '',
     name: '',
@@ -32,7 +51,15 @@ function CreateListing() {
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
-    images: [],
+    images: {
+      length: 0,
+      item(_index: number): File | null {
+        throw new Error('Function not implemented.');
+      },
+      [Symbol.iterator](): IterableIterator<File> {
+        throw new Error('Function not implemented.');
+      },
+    },
     latitude: 0,
     longitude: 0,
   });
@@ -78,12 +105,12 @@ function CreateListing() {
 
     setIsLoading(true);
 
-    if (discountedPrice >= regularPrice) {
+    if (discountedPrice! >= regularPrice) {
       setIsLoading(false);
       toast.error('Discounted price should be lower than regular price');
     }
 
-    if (images.length > 6) {
+    if (images!.length > 6) {
       setIsLoading(false);
       toast.error('Max 6 images');
     }
@@ -118,11 +145,11 @@ function CreateListing() {
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-      location = address;
+      location = address!;
     }
 
-    const storeImage = async (image) => {
-      return new Promise((resolve, reject) => {
+    const storeImage = async (image: File) => {
+      return new Promise<string>((resolve, reject) => {
         const storage = getStorage(app);
         const fileName = `${auth.currentUser!.uid}-${image.name}-${uuidv4()}`;
 
@@ -150,7 +177,7 @@ function CreateListing() {
     };
 
     const imageUrls = await Promise.all(
-      [...images].map((image) => storeImage(image))
+      [...images!].map((image) => storeImage(image))
     ).catch(() => {
       setIsLoading(false);
     });
@@ -162,16 +189,28 @@ function CreateListing() {
       timestamp: serverTimestamp(),
     };
 
-    delete formDataCopy.images;
-    delete formDataCopy.address;
-    if (location) {
-      formDataCopy.location = location;
+    if (address !== undefined) {
+      formDataCopy.location = address;
+    } else {
+      // Provide a default value or handle the case where address is undefined
+      formDataCopy.location = 'Default Location';
     }
-    if (!formDataCopy.offer) {
+
+    // Check if the 'images' property exists before deleting it
+    if ('images' in formDataCopy) {
+      delete formDataCopy.images;
+    }
+
+    // Check if the 'address' property exists before deleting it
+    if ('address' in formDataCopy) {
+      delete formDataCopy.address;
+    }
+
+    // Check if the 'offer' property exists and is false before deleting 'discountedPrice'
+    if ('offer' in formDataCopy && !formDataCopy.offer) {
       delete formDataCopy.discountedPrice;
     }
 
-    console.log(formDataCopy);
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy);
 
     setIsLoading(false);
