@@ -83,6 +83,7 @@ function CreateListing() {
   const auth = getAuth(app);
   const navigate = useNavigate();
   const isMounted = useRef(true);
+  const geoApi = import.meta.env.VITE_APP_GEOCODE_API_KEY;
 
   useEffect(() => {
     if (isMounted) {
@@ -124,7 +125,7 @@ function CreateListing() {
 
     if (geolocationEnabled) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAFnkmBQOkcKHTVMansrJrFMqeXeLaQe4k`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${geoApi}`
       );
       const data = await response.json();
 
