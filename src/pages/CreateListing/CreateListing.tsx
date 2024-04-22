@@ -162,6 +162,8 @@ function CreateListing() {
           (snapshot) => {
             const transferProgress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // eslint-disable-next-line no-console
+            console.log(`Upload is ${transferProgress}% complete`);
           },
           (error) => {
             reject(error); // Rejecting the promise in case of an error
@@ -219,6 +221,8 @@ function CreateListing() {
   };
 
   type FormEventTypes =
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     | MouseEvent<HTMLButtonElement>
     | ChangeEvent<HTMLInputElement>
     | ChangeEvent<HTMLTextAreaElement>
