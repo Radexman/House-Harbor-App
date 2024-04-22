@@ -36,16 +36,18 @@ function Category() {
           {isLoading && spinnerVisible ? (
             <Spinner />
           ) : (
-            <>
-              {listings && listings.length === 0 && !isLoading && <p>No listings for this category</p>}
+            <div>
+              {listings && listings.length === 0 && !isLoading && (
+                <p>No listings for this category</p>
+              )}
               {!isLoading && listings && listings.length > 0 && (
-                <ul>
+                <ul className="space-y-4">
                   {listings.map((listing) => (
                     <ListingItem key={listing.id} listing={listing} />
                   ))}
                 </ul>
               )}
-            </>
+            </div>
           )}
         </main>
       </div>

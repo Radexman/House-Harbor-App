@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
@@ -27,6 +28,7 @@ function CreateListing() {
     parking: false,
     furnished: false,
     address: '',
+    location: '',
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
@@ -130,21 +132,10 @@ function CreateListing() {
 
         uploadTask.on(
           'state_changed',
-          // (snapshot) => {
-          //   const transferProgress =
-          //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-          //   switch (snapshot.state) {
-          //     case 'paused':
-          //       console.log('Upload is paused');
-          //       break;
-          //     case 'running':
-          //       console.log('Upload is running');
-          //       break;
-          //     default:
-          //       console.log('OK');
-          //   }
-          // },
+          (snapshot) => {
+            const transferProgress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          },
           (error) => {
             reject(error); // Rejecting the promise in case of an error
           },
@@ -162,10 +153,30 @@ function CreateListing() {
       [...images].map((image) => storeImage(image))
     ).catch(() => {
       setIsLoading(false);
-      toast.error('Images not uploaded');
     });
 
+    const formDataCopy = {
+      ...formData,
+      imageUrls,
+      geolocation,
+      timestamp: serverTimestamp(),
+    };
+
+    delete formDataCopy.images;
+    delete formDataCopy.address;
+    if (location) {
+      formDataCopy.location = location;
+    }
+    if (!formDataCopy.offer) {
+      delete formDataCopy.discountedPrice;
+    }
+
+    console.log(formDataCopy);
+    const docRef = await addDoc(collection(db, 'listings'), formDataCopy);
+
     setIsLoading(false);
+    toast.success('Listing created');
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   };
 
   type FormEventTypes =
@@ -486,9 +497,9 @@ function CreateListing() {
               <p>The first image will be the cover (max 6).</p>
               <input
                 type="file"
-                id="imagesUrls"
+                id="images"
                 onChange={handleMutate}
-                name="imagesUrls"
+                name="images"
                 max={6}
                 accept=".jpg,.png,.jpeg"
                 multiple
