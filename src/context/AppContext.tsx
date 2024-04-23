@@ -45,23 +45,19 @@ function AppContextProvider({ children }: AppContextPropTypes) {
 
   // Handle username change
   const handleChangeDetails = async (username: string) => {
-    try {
-      if (auth.currentUser?.displayName !== username) {
-        // Update display name
-        await updateProfile(auth.currentUser!, {
-          displayName: username,
-        });
+    if (auth.currentUser?.displayName !== username) {
+      // Update display name
+      await updateProfile(auth.currentUser!, {
+        displayName: username,
+      });
 
-        // Update in firestore
-        const userRef = doc(db, 'users', auth.currentUser!.uid);
-        await updateDoc(userRef, {
-          username,
-        });
-        toast.success('Profile updated successfully!');
-      }
-    } catch (error) {
-      toast.error('Could not update profile');
+      // Update in firestore
+      const userRef = doc(db, 'users', auth.currentUser!.uid);
+      await updateDoc(userRef, {
+        username,
+      });
     }
+    toast.success('Profile updated');
   };
 
   // Fetch listings for each category

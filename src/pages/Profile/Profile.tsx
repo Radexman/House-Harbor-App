@@ -30,11 +30,12 @@ function Profile() {
   const { username } = watch();
 
   const handleFormSubmit = () => {
-    if (username !== '') {
-      handleChangeDetails(username);
-    } else {
-      toast.error('Please provide correct username');
+    if (username === '' || null) {
+      toast.error('Please provide a username');
+      return;
     }
+
+    handleChangeDetails(username);
   };
 
   return (
