@@ -3,13 +3,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getDoc, doc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { IoShareSocialSharp as ShareIcon } from 'react-icons/io5';
-import { toast } from 'react-toastify';
 import app, { db } from '../../firebase.config';
 import Spinner from '../../components/Spinner/Spinner';
 import { ListingType } from '../../types/app.types';
 
 function Listing() {
-  const [listing, setListing] = useState<ListingType>({} as ListingType);
+  const [listing, setListing] = useState<ListingType | null>({} as ListingType);
   const [isLoading, setIsLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
 
@@ -19,26 +18,12 @@ function Listing() {
 
   useEffect(() => {
     const fetchListing = async () => {
-      try {
-        if (params.listingId) {
-          const docRef = doc(db, 'listings', params.listingId);
-          const docSnap = await getDoc(docRef);
+      const docRef = doc(db, 'listings', params.listingId);
+      const docSnap = await getDoc(docRef);
 
-          if (docSnap.exists()) {
-            setListing((prevState) => ({
-              ...prevState,
-              data: {
-                ...prevState,
-                ...docSnap.data(),
-              },
-            }));
-          } else {
-            toast.error('No such document!');
-          }
-        }
-      } catch (error) {
-        toast.error(`Error fetching document: , ${error}`);
-      } finally {
+      if (docSnap.exists()) {
+        console.log(docSnap.data());
+        setListing(docSnap.data());
         setIsLoading(false);
       }
     };
