@@ -9,6 +9,7 @@ import CreateListing from './pages/CreateListing/CreateListing';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import Listing from './pages/Listing/Listing';
+import Contact from './pages/Contact/Contact';
 import Category from './pages/Category/Category';
 import Navbar from './components/layout/Navbar/Navbar';
 import BottomNavbar from './components/layout/BottomNavbar/BottomNavbar';
@@ -32,6 +33,7 @@ function App() {
           path="/category/:categoryName/:listingId"
           element={<Listing />}
         />
+        <Route path="/contact/:landlordId" element={<Contact />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         {/* @TODO Not Found Page */}

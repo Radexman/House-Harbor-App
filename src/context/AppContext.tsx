@@ -34,6 +34,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
   const auth = getAuth(app);
   const [listings, setListings] = useState<FetchedDataTypes[]>([]);
   const [offerListings, setOfferListings] = useState<FetchedDataTypes[]>([]);
+  const [singleListing, setSingleListing] = useState<ListingType>();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -129,6 +130,26 @@ function AppContextProvider({ children }: AppContextPropTypes) {
     }
   };
 
+  // Fetch single listing
+  const fetchSingleListing = async (listingId: string | undefined) => {
+    setIsLoading(true);
+    if (!listingId) {
+      toast.error('This listing does not exist');
+      return;
+    }
+    const docRef = doc(db, 'listings', listingId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setSingleListing(docSnap.data() as ListingType);
+
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      toast.error('This listing does not exist');
+    }
+  };
+
   // Sign up / sing in with Google
   const onGoogleClick = async () => {
     try {
@@ -140,11 +161,12 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       const docRef = doc(db, 'users', user.uid);
       const docSnap = await getDoc(docRef);
 
-      if (!docSnap.exists) {
+      if (!docSnap.exists()) {
         await setDoc(doc(db, 'users', user.uid), {
-          name: user.displayName,
+          username: user.displayName,
           email: user.email,
           timestamp: serverTimestamp(),
+          userRef: user.uid,
         });
       }
       setIsLoading(false);
@@ -161,9 +183,11 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         isLoading,
         listings,
         offerListings,
+        singleListing,
         onGoogleClick,
         fetchListings,
         fetchOffersListings,
+        fetchSingleListing,
         handleLogout,
         handleChangeDetails,
       }}

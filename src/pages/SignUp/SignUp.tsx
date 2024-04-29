@@ -18,7 +18,7 @@ import {
   FaUser as UsernameIcon,
 } from 'react-icons/fa';
 import { FaEyeSlash as NotVisibleIcon } from 'react-icons/fa6';
-import initApp, { db } from '../../firebase.config';
+import app, { db } from '../../firebase.config';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 import SignUpFormTypes from './SignUp.types';
 import OAuth from '../../components/OAuth/OAuth';
@@ -36,7 +36,7 @@ function SignUp() {
 
   const handleFormSubmit = async () => {
     try {
-      const auth = getAuth(initApp);
+      const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -49,7 +49,12 @@ function SignUp() {
         displayName: username,
       });
 
-      const formData = { email, username, timestamp: serverTimestamp() };
+      const formData = {
+        email,
+        username,
+        timestamp: serverTimestamp(),
+        userRef: user.uid,
+      };
 
       await setDoc(doc(db, 'users', user.uid), formData);
 
