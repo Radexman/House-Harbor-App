@@ -4,36 +4,46 @@ import { doc, getDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { db } from '../../firebase.config';
 import { UserType } from '../../types/User.types';
+import Spinner from '../../components/Spinner/Spinner';
 
 function Contact() {
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [landlord, setLandlord] = useState<UserType>({} as UserType);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const params = useParams();
 
   useEffect(() => {
     const getLandlord = async () => {
+      setIsLoading(true);
+      // Add to context and set loading screen
+      if (!params.landlordId) {
+        toast.error('Wrong landlord data');
+        setIsLoading(false);
+        return;
+      }
       const docRef = doc(db, 'users', params.landlordId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        setLandlord(docSnap.data());
+        setLandlord(docSnap.data() as UserType);
       } else {
         toast.error('Could not get landlord data');
       }
+      setIsLoading(false);
     };
 
     getLandlord();
-  }, [params.landlordId]);
+  }, [params?.landlordId]);
 
-  console.log(landlord);
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
   return (
     <div className="container mx-auto p-4">
+      {isLoading && <Spinner />}
       <header>
         <h1 className="text-3xl font-semibold">Contanct Landlord</h1>
       </header>
@@ -55,7 +65,7 @@ function Contact() {
                   value={message}
                   onChange={handleChange}
                   cols={30}
-                  rows={10}
+                  rows={5}
                 />
               </label>
             </div>

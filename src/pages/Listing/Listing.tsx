@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { IoShareSocialSharp as ShareIcon } from 'react-icons/io5';
 import { AppContext } from '../../context/AppContext';
+import { refactorCurrency } from '../../utils/helpers';
 import app from '../../firebase.config';
 import Spinner from '../../components/Spinner/Spinner';
 
@@ -19,6 +20,15 @@ function Listing() {
     fetchSingleListing(params.listingId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, params.listingId]);
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setShareLinkCopied(true);
+
+    setTimeout(() => {
+      setShareLinkCopied(false);
+    }, 2000);
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -38,14 +48,7 @@ function Listing() {
             type="button"
             className="btn tooltip tooltip-left rounded-full"
             data-tip="Share Listing"
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              setShareLinkCopied(true);
-
-              setTimeout(() => {
-                setShareLinkCopied(false);
-              }, 2000);
-            }}
+            onClick={handleCopyLink}
           >
             <ShareIcon />
           </button>
@@ -59,19 +62,18 @@ function Listing() {
         <p className="text-xl font-semibold">
           $
           {singleListing.offer
-            ? singleListing.discountedPrice
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            : singleListing.regularPrice
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            ? refactorCurrency(singleListing.discountedPrice)
+            : refactorCurrency(singleListing.regularPrice)}
         </p>
         <div className="badge badge-primary">
           For {singleListing.type === 'rent' ? 'Rent' : 'Sale'}
         </div>
         {singleListing.offer && (
           <div className="badge badge-secondary badge-outline">
-            ${singleListing.regularPrice - singleListing.discountedPrice}{' '}
+            $
+            {refactorCurrency(
+              singleListing.regularPrice - singleListing.discountedPrice
+            )}{' '}
             discount
           </div>
         )}
