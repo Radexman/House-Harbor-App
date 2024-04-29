@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { getAuth } from 'firebase/auth';
 import { IoShareSocialSharp as ShareIcon } from 'react-icons/io5';
 import { AppContext } from '../../context/AppContext';
@@ -18,6 +19,7 @@ function Listing() {
 
   useEffect(() => {
     fetchSingleListing(params.listingId);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, params.listingId]);
 
@@ -43,6 +45,11 @@ function Listing() {
       {/* SLIDER */}
       <div className="flex justify-between pt-4">
         <h1 className="text-3xl font-semibold">{singleListing.name}</h1>
+        <h2>
+          {singleListing.geolocation.lat}
+          {'   '}
+          {singleListing.geolocation.lng}
+        </h2>
         <div className="fixed right-4">
           <button
             type="button"
@@ -97,7 +104,31 @@ function Listing() {
       </div>
       <div className="my-6">
         <h2 className="text-xl font-semibold">Location</h2>
-        {/* Map */}
+        <div className="h-52">
+          <MapContainer
+            style={{ height: '100%', width: '100%' }}
+            center={[
+              singleListing.geolocation.lat,
+              singleListing.geolocation.lng,
+            ]}
+            zoom={13}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
+            />
+
+            <Marker
+              position={[
+                singleListing.geolocation.lat,
+                singleListing.geolocation.lng,
+              ]}
+            >
+              <Popup>{singleListing.location}</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </div>
       <div className="my-6">
         {auth.currentUser?.uid !== singleListing.userRef && (
