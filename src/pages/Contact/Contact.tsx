@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { db } from '../../firebase.config';
 import { UserType } from '../../types/User.types';
 import Spinner from '../../components/Spinner/Spinner';
+import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 
 function Contact() {
   const [message, setMessage] = useState('');
@@ -42,46 +43,75 @@ function Contact() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <>
       {isLoading && <Spinner />}
-      <header>
-        <h1 className="text-3xl font-semibold">Contanct Landlord</h1>
-      </header>
-      {landlord !== null && (
-        <main>
-          <div className="my-4">
-            <p className="text-lg font-semibold">
-              Contact {landlord?.username}
-            </p>
+      <div
+        className="hero min-h-[93vh]"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
+        <div className="hero-overlay bg-opacity-80 sm:bg-opacity-70" />
+        <div className="container">
+          <div className="mx-auto max-w-2xl rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
+            <header>
+              <h1 className="text-3xl font-semibold">
+                Contanct {landlord.username}
+              </h1>
+              <h2 className="pt-4 text-xl font-semibold">
+                Send mail or call landlord to know about {landlord.username}
+                &apos;s listing {searchParams.get('listingName')}
+              </h2>
+            </header>
+            <main>
+              <form className="card-body my-4">
+                <div>
+                  <p>
+                    Write a message that will be sent to landlord&apos;s email
+                  </p>
+                  <label htmlFor="message">
+                    <textarea
+                      className="w-full rounded-md border-2 bg-slate-600 bg-opacity-50 p-2 text-slate-50"
+                      name="message"
+                      id="message"
+                      value={message}
+                      onChange={handleChange}
+                      cols={30}
+                      rows={5}
+                      maxLength={300}
+                    />
+                  </label>
+                </div>
+                <a
+                  href={`mailto:${landlord.email}?Subject=${searchParams.get(
+                    'listingName'
+                  )}&body=${message}`}
+                  className="w-full"
+                >
+                  <button
+                    type="button"
+                    className={`btn btn-primary w-full ${
+                      !message && 'btn-disabled'
+                    }`}
+                  >
+                    Send Message
+                  </button>
+                </a>
+                {landlord.phoneNumber === null ||
+                landlord.phoneNumber === undefined ? (
+                  <p>Landlord didn&apos;t provided phone number</p>
+                ) : (
+                  <a href={`tel:+${landlord.phoneNumber}`} className="w-full">
+                    <button
+                      type="button"
+                      className="btn btn-outline btn-primary w-full"
+                    >{`Call ${landlord.username}`}</button>
+                  </a>
+                )}
+              </form>
+            </main>
           </div>
-          <form className="max-w-3xl">
-            <div>
-              <p>Message</p>
-              <label htmlFor="message">
-                <textarea
-                  className="w-full rounded-md border-2 p-2"
-                  name="message"
-                  id="message"
-                  value={message}
-                  onChange={handleChange}
-                  cols={30}
-                  rows={5}
-                />
-              </label>
-            </div>
-            <a
-              href={`mailto:${landlord.email}?Subject=${searchParams.get(
-                'listingName'
-              )}&body=${message}`}
-            >
-              <button type="button" className="btn btn-primary">
-                Send Message
-              </button>
-            </a>
-          </form>
-        </main>
-      )}
-    </div>
+        </div>
+      </div>
+    </>
   );
 }
 

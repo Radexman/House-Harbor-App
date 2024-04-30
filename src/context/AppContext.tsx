@@ -44,21 +44,48 @@ function AppContextProvider({ children }: AppContextPropTypes) {
     navigate('/sign-in');
   };
 
-  // Handle username change
   const handleChangeDetails = async (username: string) => {
+    setIsLoading(true);
     if (auth.currentUser?.displayName !== username) {
+      // Check if the desired username already exists in Firestore
+      const userSnapshot = await getDoc(
+        doc(db, 'users', auth.currentUser!.uid)
+      );
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+        if (userData?.username === username) {
+          // Username is the same as the current one, no need to update
+          toast.error('Please choose a different username');
+          return;
+        }
+      }
+
       // Update display name
       await updateProfile(auth.currentUser!, {
         displayName: username,
       });
 
-      // Update in firestore
+      // Update in Firestore
       const userRef = doc(db, 'users', auth.currentUser!.uid);
       await updateDoc(userRef, {
         username,
       });
+      toast.success('Username updated');
+    } else {
+      toast.error('The new username is the same as the current one');
     }
-    toast.success('Profile updated');
+    setIsLoading(false);
+  };
+
+  // Handle phone number change
+  const handleChangePhoneNumber = async (phoneNumber: number) => {
+    setIsLoading(true);
+    const userRef = doc(db, 'users', auth.currentUser!.uid);
+    await updateDoc(userRef, {
+      phoneNumber,
+    });
+    toast.success('Phone number updated');
+    setIsLoading(false);
   };
 
   // Fetch listings for each category
@@ -190,6 +217,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         fetchSingleListing,
         handleLogout,
         handleChangeDetails,
+        handleChangePhoneNumber,
       }}
     >
       {children}

@@ -4,4 +4,6 @@ export type UserType = {
   email: string;
   username: string;
   timestamp: Timestamp;
+  userRef: string;
+  phoneNumber?: number;
 };

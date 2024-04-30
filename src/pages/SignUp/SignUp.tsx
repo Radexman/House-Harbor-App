@@ -8,7 +8,6 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { DevTool } from '@hookform/devtools';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FaLongArrowAltRight as ArrowIcon,
@@ -25,7 +24,7 @@ import OAuth from '../../components/OAuth/OAuth';
 
 function SignUp() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { register, control, handleSubmit, watch } = useForm<SignUpFormTypes>({
+  const { register, handleSubmit, watch } = useForm<SignUpFormTypes>({
     mode: 'onChange',
   });
   const { email, password, username } = watch();
@@ -66,7 +65,7 @@ function SignUp() {
 
   return (
     <div>
-      <main className="space-y-2">
+      <div className="space-y-2">
         <div
           className="hero min-h-[93vh]"
           style={{ backgroundImage: `url(${bgImage})` }}
@@ -83,78 +82,84 @@ function SignUp() {
                   your profile with email or via Google account.
                 </p>
               </header>
-              <form
-                onSubmit={handleSubmit(handleFormSubmit)}
-                className="card-body"
-              >
-                <div className="form-control">
-                  <label
-                    htmlFor="username"
-                    className="input input-bordered flex items-center gap-2"
-                  >
-                    <UsernameIcon />
-                    <input
-                      {...register('username')}
-                      type="text"
-                      id="username"
-                      name="username"
-                      className="grow"
-                      placeholder="Username"
-                      required
-                    />
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label
-                    htmlFor="email"
-                    className="input input-bordered flex items-center gap-2"
-                  >
-                    <EmailIcon />
-                    <input
-                      {...register('email')}
-                      type="text"
-                      id="email"
-                      name="email"
-                      className="grow"
-                      placeholder="Email"
-                      required
-                    />
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label
-                    htmlFor="password"
-                    className="input input-bordered flex items-center gap-2"
-                  >
-                    <PasswordIcon />
-                    <input
-                      {...register('password')}
-                      type={isPasswordVisible ? 'text' : 'password'}
-                      id="password"
-                      name="password"
-                      className="grow"
-                      placeholder="Password"
-                      required
-                    />
-                    <button type="button" onClick={toggleVisibility}>
-                      {isPasswordVisible ? <VisibleIcon /> : <NotVisibleIcon />}
-                    </button>
-                  </label>
-                </div>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-primary hover:underline"
+              <main>
+                <form
+                  onSubmit={handleSubmit(handleFormSubmit)}
+                  className="card-body"
                 >
-                  Forgot Password?
-                </Link>
-                <div className="form-control mt-6">
-                  <button type="submit" className="btn btn-primary">
-                    <span>Sign Up</span>
-                    <ArrowIcon />
-                  </button>
-                </div>
-                <OAuth />
-              </form>
+                  <div className="form-control">
+                    <label
+                      htmlFor="username"
+                      className="input input-bordered flex items-center gap-2"
+                    >
+                      <UsernameIcon />
+                      <input
+                        {...register('username')}
+                        type="text"
+                        id="username"
+                        name="username"
+                        className="grow"
+                        placeholder="Username"
+                        required
+                      />
+                    </label>
+                  </div>
+                  <div className="form-control">
+                    <label
+                      htmlFor="email"
+                      className="input input-bordered flex items-center gap-2"
+                    >
+                      <EmailIcon />
+                      <input
+                        {...register('email')}
+                        type="text"
+                        id="email"
+                        name="email"
+                        className="grow"
+                        placeholder="Email"
+                        required
+                      />
+                    </label>
+                  </div>
+                  <div className="form-control">
+                    <label
+                      htmlFor="password"
+                      className="input input-bordered flex items-center gap-2"
+                    >
+                      <PasswordIcon />
+                      <input
+                        {...register('password')}
+                        type={isPasswordVisible ? 'text' : 'password'}
+                        id="password"
+                        name="password"
+                        className="grow"
+                        placeholder="Password"
+                        required
+                      />
+                      <button type="button" onClick={toggleVisibility}>
+                        {isPasswordVisible ? (
+                          <VisibleIcon />
+                        ) : (
+                          <NotVisibleIcon />
+                        )}
+                      </button>
+                    </label>
+                  </div>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-primary hover:underline"
+                  >
+                    Forgot Password?
+                  </Link>
+                  <div className="form-control mt-6">
+                    <button type="submit" className="btn btn-primary">
+                      <span>Sign Up</span>
+                      <ArrowIcon />
+                    </button>
+                  </div>
+                  <OAuth />
+                </form>
+              </main>
               <div className="text-center text-sm">
                 <p>Already have an account?</p>
                 <Link to="/sign-in" className="underline hover:text-primary">
@@ -164,8 +169,7 @@ function SignUp() {
             </div>
           </div>
         </div>
-      </main>
-      <DevTool control={control} />
+      </div>
     </div>
   );
 }

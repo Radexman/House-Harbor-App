@@ -17,4 +17,5 @@ export type ContextProps = {
   fetchSingleListing: (listingId: string | undefined) => void;
   handleLogout: () => void;
   handleChangeDetails: (username: string) => void;
+  handleChangePhoneNumber: (phoneNumber: number) => void;
 };
