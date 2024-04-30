@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { getAuth } from 'firebase/auth';
 import { IoShareSocialSharp as ShareIcon } from 'react-icons/io5';
 import { AppContext } from '../../context/AppContext';
 import { refactorCurrency } from '../../utils/helpers';
 import app from '../../firebase.config';
 import Spinner from '../../components/Spinner/Spinner';
-import 'swiper/css';
+import SwiperComponent from '../../components/layout/SwiperComponent/SwiperComponent';
+import { GeoPoint } from 'firebase/firestore';
 
 function Listing() {
   const { fetchSingleListing, singleListing, isLoading } =
@@ -57,24 +57,7 @@ function Listing() {
           <p className="fixed right-4 mt-2 text-sm">Link Copied</p>
         )}
       </div>
-      <div className="">
-        <Swiper
-          spaceBetween={50}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-        >
-          {singleListing.imageUrls.map((imageUrl) => (
-            <SwiperSlide key={imageUrl}>
-              <div
-                className="h-64 w-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${imageUrl}` }}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      <SwiperComponent imagesUrls={singleListing.imageUrls} />
       <main className="container mx-auto mb-12 p-4">
         <div className="flex justify-between pt-4">
           <h1 className="text-3xl font-semibold">{singleListing.name}</h1>
