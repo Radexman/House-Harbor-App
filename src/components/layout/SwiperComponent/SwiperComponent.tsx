@@ -7,7 +7,7 @@ function SwiperComponent({ imagesUrls }: SwiperComponentProps) {
   return imagesUrls.length < 2 ? (
     <div
       className="h-64 w-full bg-cover bg-center"
-      style={{ background: `url(${imagesUrls[0]})` }}
+      style={{ background: `url(${imagesUrls[0]}) center no-repeat` }}
     />
   ) : (
     <Swiper
