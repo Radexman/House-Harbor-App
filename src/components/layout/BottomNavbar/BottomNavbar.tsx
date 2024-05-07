@@ -14,7 +14,7 @@ function BottomNavbar() {
   };
 
   return (
-    <nav className="block md:hidden">
+    <nav className="z-10 block md:hidden">
       <div className="btm-nav bg-base-200">
         <Link to="/" className={setActiveNavButton('/')}>
           <button type="button">

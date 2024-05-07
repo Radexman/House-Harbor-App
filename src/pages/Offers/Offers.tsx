@@ -24,7 +24,7 @@ function Offers() {
           property.
         </p>
       </header>
-      <main className="space-y-2">
+      <main className="min-h-screen space-y-2">
         <ul className="space-y-4">
           {offerListings.map((listing) => (
             <ListingItem key={listing.id} listing={listing} />

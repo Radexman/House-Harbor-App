@@ -32,7 +32,7 @@ function Category() {
         }`}</h1>
       </header>
       <div>
-        <main className="space-y-2">
+        <main className="min-h-screen space-y-2">
           {isLoading && spinnerVisible ? (
             <Spinner />
           ) : (

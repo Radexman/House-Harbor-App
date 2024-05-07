@@ -10,7 +10,7 @@ function Explore() {
           Explore
         </h1>
       </header>
-      <main>
+      <main className="min-h-screen">
         {/* @TODO Slider */}
         <p className="py-4 text-justify md:text-left">
           Welcome to our House Harbor! Whether you&apos;re in search of your

@@ -5,6 +5,7 @@ import Explore from './pages/Explore/Explore';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Offers from './pages/Offers/Offers';
 import Profile from './pages/Profile/Profile';
+import NotFound from './pages/NotFound/NotFound';
 import CreateListing from './pages/CreateListing/CreateListing';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
@@ -12,6 +13,7 @@ import Listing from './pages/Listing/Listing';
 import Contact from './pages/Contact/Contact';
 import Category from './pages/Category/Category';
 import Navbar from './components/layout/Navbar/Navbar';
+import Footer from './components/layout/Footer/Footer';
 import BottomNavbar from './components/layout/BottomNavbar/BottomNavbar';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import AppContextProvider from './context/AppContext';
@@ -36,9 +38,10 @@ function App() {
         <Route path="/contact/:landlordId" element={<Contact />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        {/* @TODO Not Found Page */}
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <BottomNavbar />
+      <Footer />
       <ToastContainer position="bottom-left" />
     </AppContextProvider>
 
