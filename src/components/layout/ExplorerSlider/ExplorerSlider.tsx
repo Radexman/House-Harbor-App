@@ -8,6 +8,7 @@ import Spinner from '../../Spinner/Spinner';
 import 'swiper/css/bundle';
 import { ListingType } from '../../../types/app.types';
 import FetchedDataTypes from '../../../pages/Category/Category.types';
+import { refactorCurrency } from '../../../utils/helpers';
 
 function ExplorerSlider() {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +43,7 @@ function ExplorerSlider() {
       {isLoading && <Spinner />}
       {listings && (
         <div>
-          <p className="text-lg font-semibold">Recommended Listings</p>
+          <p className="mb-1 text-lg font-semibold">Recommended Listings</p>
           <Swiper
             spaceBetween={30}
             centeredSlides
@@ -70,7 +71,18 @@ function ExplorerSlider() {
                   <div
                     className="h-64 w-full cursor-pointer rounded-md bg-cover bg-center"
                     style={{ backgroundImage: `url(${data.imageUrls[0]}` }}
-                  />
+                  >
+                    <p className="relative top-[35%] w-[70%] bg-black bg-opacity-70 p-4 text-xl font-semibold tracking-wide text-slate-100">
+                      {`${data.name}, ${data.location}`}
+                    </p>
+                    <div className="badge relative bottom-[-35%] p-2">
+                      {`$${
+                        data.discountedPrice ??
+                        refactorCurrency(data.regularPrice)
+                      }`}
+                      {data.type === 'rent' && ' / month'}
+                    </div>
+                  </div>
                 </SwiperSlide>
               );
             })}

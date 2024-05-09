@@ -20,6 +20,7 @@ function Explore() {
           your journey to find the perfect place to call home.
         </p>
         <ExplorerSlider />
+        <p className="mb-1 text-lg font-semibold">Categories</p>
         <div className="mx-auto flex flex-col items-center justify-center gap-6 md:flex-row">
           <Link
             to="/category/sale"
