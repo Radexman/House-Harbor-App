@@ -6,4 +6,5 @@ export type UserType = {
   timestamp: Timestamp;
   userRef: string;
   phoneNumber?: number;
+  profilePicture?: string;
 };

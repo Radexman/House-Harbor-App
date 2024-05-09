@@ -31,6 +31,7 @@ function Profile() {
     email: auth.currentUser!.email,
     phoneNumber: auth.currentUser?.phoneNumber || '',
   });
+
   const [number, setNumber] = useState();
   const { register, watch, control } = useForm({
     mode: 'onChange',

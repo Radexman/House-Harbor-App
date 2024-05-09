@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import rentImage from '../../assets/images/interior-2.jpg';
 import saleImage from '../../assets/images/house-1.jpg';
+import ExplorerSlider from '../../components/layout/ExplorerSlider/ExplorerSlider';
 
 function Explore() {
   return (
@@ -11,20 +12,20 @@ function Explore() {
         </h1>
       </header>
       <main className="min-h-screen">
-        {/* @TODO Slider */}
-        <p className="py-4 text-justify md:text-left">
+        <p className="py-2 text-justify md:text-left">
           Welcome to our House Harbor! Whether you&apos;re in search of your
           dream home to buy or a cozy place to rent, explore our diverse
           selection of listings. Browse through our collection of available
           properties categorized conveniently for sale or rent, and embark on
           your journey to find the perfect place to call home.
         </p>
+        <ExplorerSlider />
         <div className="mx-auto flex flex-col items-center justify-center gap-6 md:flex-row">
           <Link
             to="/category/sale"
-            className="w-full rounded-xl shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary md:w-1/2"
+            className="w-full rounded-md shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary md:w-1/2"
           >
-            <div className="card rounded-xl bg-base-200 transition-all duration-200">
+            <div className="card rounded-md bg-base-200 transition-all duration-200">
               <figure>
                 <img src={saleImage} alt="Properties for sale page" />
               </figure>
@@ -40,9 +41,9 @@ function Explore() {
           </Link>
           <Link
             to="category/rent"
-            className="w-full rounded-xl shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary md:w-1/2"
+            className="w-full rounded-md shadow-sm shadow-primary transition-all duration-200 hover:shadow-md hover:shadow-primary md:w-1/2"
           >
-            <div className="card rounded-xl bg-base-200  transition-all duration-200">
+            <div className="card rounded-md bg-base-200 transition-all duration-200">
               <figure>
                 <img src={rentImage} alt="Properties for rent page" />
               </figure>

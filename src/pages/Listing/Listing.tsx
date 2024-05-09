@@ -8,7 +8,6 @@ import { refactorCurrency } from '../../utils/helpers';
 import app from '../../firebase.config';
 import Spinner from '../../components/Spinner/Spinner';
 import SwiperComponent from '../../components/layout/SwiperComponent/SwiperComponent';
-import { GeoPoint } from 'firebase/firestore';
 
 function Listing() {
   const { fetchSingleListing, singleListing, isLoading } =

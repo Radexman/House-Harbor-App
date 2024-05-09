@@ -7,7 +7,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="footer mb-10 bg-base-300 p-10 text-base-content sm:mb-0">
+    <footer className="footer mb-10 bg-base-300 p-10 text-base-content">
       <nav>
         <p className="text-lg font-semibold tracking-wide">Menu</p>
         <Link to="/">Explore</Link>
