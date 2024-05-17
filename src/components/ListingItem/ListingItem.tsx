@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { FaBath as BathroomIcon } from 'react-icons/fa';
 import { IoIosBed as BedroomIcon } from 'react-icons/io';
+import { MdDeleteForever as DeleteIcon } from 'react-icons/md';
 import { ListingItemProps } from './ListingItem.types';
 
-function ListingItem({ listing }: ListingItemProps) {
+function ListingItem({ listing, id, onDelete }: ListingItemProps) {
   const {
     type,
     imageUrls,
@@ -15,6 +16,7 @@ function ListingItem({ listing }: ListingItemProps) {
     bedrooms,
     bathrooms,
   } = listing.data;
+
   return (
     <li>
       <Link
@@ -39,21 +41,34 @@ function ListingItem({ listing }: ListingItemProps) {
             {type === 'rent' && ' / Month'}
           </p>
 
-          <div className="flex items-center gap-1">
-            <BedroomIcon />
-            <p className="text-sm">
-              {bedrooms > 1 ? `${bedrooms} Bedrooms` : '1 Bedroom'}
-            </p>
-          </div>
-          <div className="flex items-center gap-1">
-            <BathroomIcon />
-            <p className="text-sm">
-              {bathrooms > 1 ? `${bathrooms} Bathrooms` : '1 Bathroom'}
-            </p>
+          <div className="flex justify-between">
+            <div>
+              <div className="flex items-center gap-1">
+                <BedroomIcon />
+                <p className="text-sm">
+                  {bedrooms > 1 ? `${bedrooms} Bedrooms` : '1 Bedroom'}
+                </p>
+              </div>
+              <div className="flex items-center gap-1">
+                <BathroomIcon />
+                <p className="text-sm">
+                  {bathrooms > 1 ? `${bathrooms} Bathrooms` : '1 Bathroom'}
+                </p>
+              </div>
+            </div>
+            {onDelete && (
+              <DeleteIcon
+                className="text-xl text-red-500"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onDelete(id);
+                }}
+              />
+            )}
           </div>
         </div>
       </Link>
-      {/* Add on delete incon */}
     </li>
   );
 }

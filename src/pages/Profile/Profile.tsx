@@ -12,11 +12,23 @@ import { DevTool } from '@hookform/devtools';
 import { IoIosCheckmarkCircle as CheckmarkIcon } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  deleteDoc,
+} from 'firebase/firestore';
 import { AppContext } from '../../context/AppContext';
 import app, { db } from '../../firebase.config';
 import bgImage from '../../assets/images/the-bialons-x_CEJ7kn4w4-unsplash.jpg';
 import Spinner from '../../components/Spinner/Spinner';
+import FetchedDataTypes from '../Category/Category.types';
+import { ListingType } from '../../types/app.types';
+import ListingItem from '../../components/ListingItem/ListingItem';
 
 function Profile() {
   const {
@@ -32,6 +44,7 @@ function Profile() {
     phoneNumber: auth.currentUser?.phoneNumber || '',
   });
 
+  const [listings, setListings] = useState<FetchedDataTypes[] | null>();
   const [number, setNumber] = useState();
   const { register, watch, control } = useForm({
     mode: 'onChange',
@@ -54,6 +67,35 @@ function Profile() {
     getUser();
   }, [auth.currentUser]);
 
+  useEffect(() => {
+    const fetchUserListings = async () => {
+      const listingsRef = collection(db, 'listings');
+
+      const q = query(
+        listingsRef,
+        where('userRef', '==', auth.currentUser!.uid),
+        orderBy('timestamp', 'desc')
+      );
+
+      const querySnap = await getDocs(q);
+
+      const listingsArr: FetchedDataTypes[] = [];
+
+      querySnap.forEach((document) => {
+        return listingsArr.push({
+          id: document.id,
+          data: document.data() as ListingType,
+        });
+      });
+
+      setListings(listingsArr);
+    };
+
+    fetchUserListings();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.currentUser!.uid]);
+
   const { email, username } = user;
 
   const { formName, phone } = watch();
@@ -74,6 +116,16 @@ function Profile() {
     }
 
     handleChangePhoneNumber(phone);
+  };
+
+  const onDelete = async (id: string) => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Are you sure you want to delete?')) {
+      await deleteDoc(doc(db, 'listings', id));
+      const updatedListings = listings!.filter((listing) => listing.id !== id);
+      setListings(updatedListings);
+      toast.success('Successfully deleted listing');
+    }
   };
 
   return (
@@ -190,6 +242,23 @@ function Profile() {
                     <li>Phone Number: {number || 'Not yet added'}</li>
                   </ul>
                 </form>
+                <div>
+                  {listings && (
+                    <>
+                      <h2 className="text-xl">Your Listings</h2>
+                      <ul className="space-y-3">
+                        {listings?.map((listing) => (
+                          <ListingItem
+                            key={listing.id}
+                            listing={listing}
+                            id={listing.id}
+                            onDelete={() => onDelete(listing.id)}
+                          />
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
                 <div className="flex flex-col items-center justify-between gap-3 pt-6 sm:flex-row">
                   <Link to="/create-listing" className="w-full">
                     <button
