@@ -11,8 +11,10 @@ export type ContextProps = {
   isLoading: boolean;
   offerListings: FetchedDataTypes[];
   singleListing: ListingType | undefined;
+  lastFetchedListing: ListingType | null;
   onGoogleClick: () => void;
   fetchListings: (category: string | undefined) => Promise<void>;
+  onFetchMoreListings: (category: string | undefined) => Promise<void>;
   fetchOffersListings: () => void;
   fetchSingleListing: (listingId: string | undefined) => void;
   handleLogout: () => void;

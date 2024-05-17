@@ -7,7 +7,13 @@ import ListingItem from '../../components/ListingItem/ListingItem';
 import Spinner from '../../components/Spinner/Spinner';
 
 function Category() {
-  const { listings, fetchListings, isLoading } = useContext(AppContext);
+  const {
+    listings,
+    fetchListings,
+    onFetchMoreListings,
+    lastFetchedListing,
+    isLoading,
+  } = useContext(AppContext);
   const [spinnerVisible, setSpinnerVisible] = useState(true);
 
   const params = useParams();
@@ -50,6 +56,15 @@ function Category() {
             </div>
           )}
         </main>
+        {lastFetchedListing && (
+          <button
+            onClick={() => onFetchMoreListings(params.categoryName)}
+            type="button"
+            className="btn btn-outline btn-primary btn-wide mt-4"
+          >
+            Load More
+          </button>
+        )}
       </div>
     </div>
   );

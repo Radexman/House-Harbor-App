@@ -15,6 +15,9 @@ import {
   setDoc,
   getDoc,
   serverTimestamp,
+  startAfter,
+  QueryDocumentSnapshot,
+  DocumentData,
 } from 'firebase/firestore';
 import {
   getAuth,
@@ -34,7 +37,10 @@ function AppContextProvider({ children }: AppContextPropTypes) {
   const auth = getAuth(app);
   const [listings, setListings] = useState<FetchedDataTypes[]>([]);
   const [offerListings, setOfferListings] = useState<FetchedDataTypes[]>([]);
+  const [lastFetchedListing, setLastFetchedListing] =
+    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [singleListing, setSingleListing] = useState<ListingType>();
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -100,11 +106,14 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         listingsRef,
         where('type', '==', category),
         orderBy('timestamp', 'desc'),
-        limit(10)
+        limit(1)
       );
 
       // Execute query
       const querySnap = await getDocs(q);
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchedListing(lastVisible);
 
       const listingsArr: FetchedDataTypes[] = [];
 
@@ -117,6 +126,42 @@ function AppContextProvider({ children }: AppContextPropTypes) {
 
       setListings(listingsArr);
       setIsLoading(false);
+    } catch (error) {
+      toast.error('Could not fetch listings');
+    }
+  };
+
+  // Pagination / Load more
+  const onFetchMoreListings = async (category: string | undefined) => {
+    try {
+      // Get reference
+      const listingsRef = collection(db, 'listings');
+
+      // Create a query
+      const q = query(
+        listingsRef,
+        where('type', '==', category),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchedListing),
+        limit(1)
+      );
+
+      // Execute query
+      const querySnap = await getDocs(q);
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchedListing(lastVisible);
+
+      const listingsArr: FetchedDataTypes[] = [];
+
+      querySnap.forEach((doc) => {
+        return listingsArr.push({
+          id: doc.id,
+          data: doc.data() as ListingType,
+        });
+      });
+
+      setListings((prevState) => [...prevState, ...listingsArr]);
     } catch (error) {
       toast.error('Could not fetch listings');
     }
@@ -211,8 +256,10 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         listings,
         offerListings,
         singleListing,
+        lastFetchedListing,
         onGoogleClick,
         fetchListings,
+        onFetchMoreListings,
         fetchOffersListings,
         fetchSingleListing,
         handleLogout,
