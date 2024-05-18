@@ -11,7 +11,7 @@ import { IoHome as HomeIcon } from 'react-icons/io5';
 import { DevTool } from '@hookform/devtools';
 import { IoIosCheckmarkCircle as CheckmarkIcon } from 'react-icons/io';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   doc,
   getDoc,
@@ -51,6 +51,8 @@ function Profile() {
   });
   const phoneNumberRegex =
     /^\+?\d{1,3}[-. (]?\d{1,3}[-. )]?\d{3,4}[-. ]?\d{4}$/;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
@@ -126,6 +128,10 @@ function Profile() {
       setListings(updatedListings);
       toast.success('Successfully deleted listing');
     }
+  };
+
+  const onEdit = async (id: string) => {
+    navigate(`/edit-listing/${id}`);
   };
 
   return (
@@ -260,6 +266,7 @@ function Profile() {
                             listing={listing}
                             id={listing.id}
                             onDelete={() => onDelete(listing.id)}
+                            onEdit={() => onEdit(listing.id)}
                           />
                         ))}
                       </ul>

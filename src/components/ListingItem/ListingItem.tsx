@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
 import { FaBath as BathroomIcon } from 'react-icons/fa';
 import { IoIosBed as BedroomIcon } from 'react-icons/io';
-import { MdDeleteForever as DeleteIcon } from 'react-icons/md';
+import {
+  MdDeleteForever as DeleteIcon,
+  MdEdit as EditIcon,
+} from 'react-icons/md';
 import { ListingItemProps } from './ListingItem.types';
 
-function ListingItem({ listing, id, onDelete }: ListingItemProps) {
+function ListingItem({ listing, id, onDelete, onEdit }: ListingItemProps) {
   const {
     type,
     imageUrls,
@@ -50,6 +53,16 @@ function ListingItem({ listing, id, onDelete }: ListingItemProps) {
                   e.preventDefault();
                   e.stopPropagation();
                   onDelete(id);
+                }}
+              />
+            )}
+            {onEdit && (
+              <EditIcon
+                className="ml-2 mt-1 text-lg"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEdit(id);
                 }}
               />
             )}

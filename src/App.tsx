@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Listing from './pages/Listing/Listing';
 import Contact from './pages/Contact/Contact';
 import Category from './pages/Category/Category';
+import EditListing from './pages/EditListing/EditListing';
 import Navbar from './components/layout/Navbar/Navbar';
 import Footer from './components/layout/Footer/Footer';
 import BottomNavbar from './components/layout/BottomNavbar/BottomNavbar';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/category/:categoryName" element={<Category />} />
+          <Route path="/edit-listing/:listingId" element={<EditListing />} />
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
