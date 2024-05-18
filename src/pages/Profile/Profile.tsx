@@ -138,108 +138,115 @@ function Profile() {
         >
           <div className="hero-overlay bg-opacity-90 sm:bg-opacity-70" />
           <div className="container">
-            <div className="mx-auto max-w-2xl rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
+            <div className="mx-auto max-w-5xl rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
               <div className="space-y-3 rounded-lg">
                 <h1 className="text-3xl font-semibold uppercase tracking-wide">{`${username}'s profile`}</h1>
                 <form className="space-y-5">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl">Personal Details</h2>
+                    <h2 className="text-xl">Change Details</h2>
                   </div>
-                  <div className="form-control">
-                    <label
-                      htmlFor="formName"
-                      className="input input-bordered flex items-center gap-2"
-                    >
-                      <UsernameIcon />
-                      <input
-                        {...register('formName')}
-                        type="text"
-                        id="formName"
-                        name="formName"
-                        className="grow"
-                        placeholder="Username"
-                        maxLength={30}
-                      />
-                      <button
-                        type="button"
-                        className={`btn btn-outline btn-primary btn-sm ${
-                          formName?.length < 3 || formName === null
-                            ? 'btn-disabled'
-                            : null
-                        }`}
-                        onClick={handleSubmitUsername}
+                  <div className="flex flex-col gap-2 md:flex-row">
+                    <div className="form-control w-full md:w-[50%]">
+                      <label
+                        htmlFor="formName"
+                        className="input input-bordered flex items-center gap-2"
                       >
-                        Change
-                      </button>
-                    </label>
-                    {formName?.length < 3 || formName === null ? (
-                      <p className="pt-1 text-xs ">
-                        Username must be different from current one and needs to
-                        have at least 3 characters
-                      </p>
-                    ) : (
-                      <p className="animate-slideIn flex transform items-center pt-1 text-xs text-green-400 transition-transform">
-                        Correct username length
-                        <CheckmarkIcon
-                          size={13}
-                          className="ml-1 mt-1 text-green-400"
+                        <UsernameIcon />
+                        <input
+                          {...register('formName')}
+                          type="text"
+                          id="formName"
+                          name="formName"
+                          className="grow"
+                          placeholder="Username"
+                          maxLength={30}
                         />
-                      </p>
-                    )}
-                  </div>
-                  <div className="form-control relative">
-                    <div
-                      data-tip="Correct number patterns +1 (123) 456-7890,
+                        <button
+                          type="button"
+                          className={`btn btn-outline btn-primary btn-sm ${
+                            formName?.length < 3 || formName === null
+                              ? 'btn-disabled'
+                              : null
+                          }`}
+                          onClick={handleSubmitUsername}
+                        >
+                          Change
+                        </button>
+                      </label>
+                      {formName?.length < 3 || formName === null ? (
+                        <p className="pt-1 text-xs ">
+                          Username must be different from current one and needs
+                          to have at least 3 characters
+                        </p>
+                      ) : (
+                        <p className="animate-slideIn flex transform items-center pt-1 text-xs text-green-400 transition-transform">
+                          Correct username length
+                          <CheckmarkIcon
+                            size={13}
+                            className="ml-1 mt-1 text-green-400"
+                          />
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-control relative  w-full md:w-[50%]">
+                      <div
+                        data-tip="Correct number patterns +1 (123) 456-7890,
                 123-456-7890,
                 123 456 7890,
                 1234567890,
                 +1234567890,
                 01234567890"
-                      className="text-md badge tooltip absolute -top-8 right-0 flex  h-6 w-6 items-center justify-center rounded-full border border-primary font-semibold"
-                    >
-                      ?
-                    </div>
-                    <label
-                      htmlFor="phone"
-                      className="input input-bordered flex items-center gap-2"
-                    >
-                      <PhoneIcon />
-                      <input
-                        {...register('phone')}
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        className="grow"
-                        placeholder="Phone number"
-                      />
-                      <button
-                        type="button"
-                        className={`btn btn-outline btn-primary btn-sm ${
-                          !phoneNumberRegex.test(phone) ? 'btn-disabled' : null
-                        }`}
-                        onClick={handleSubmitPhoneNumber}
+                        className="text-md badge tooltip absolute -top-8 right-0 flex  h-6 w-6 items-center justify-center rounded-full border border-primary font-semibold"
                       >
-                        Change
-                      </button>
-                    </label>
-                    {!phoneNumberRegex.test(phone) ? (
-                      <p className="pt-1 text-xs ">
-                        Phone number must be in correct format
-                      </p>
-                    ) : (
-                      <p className="animate-slideIn flex transform items-center pt-1 text-xs text-green-400 transition-transform">
-                        Correct phone number format
-                        <CheckmarkIcon
-                          size={13}
-                          className="ml-1 mt-1 text-green-400"
+                        ?
+                      </div>
+                      <label
+                        htmlFor="phone"
+                        className="input input-bordered flex items-center gap-2"
+                      >
+                        <PhoneIcon />
+                        <input
+                          {...register('phone')}
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          className="grow"
+                          placeholder="Phone number"
                         />
-                      </p>
-                    )}
+                        <button
+                          type="button"
+                          className={`btn btn-outline btn-primary btn-sm ${
+                            !phoneNumberRegex.test(phone)
+                              ? 'btn-disabled'
+                              : null
+                          }`}
+                          onClick={handleSubmitPhoneNumber}
+                        >
+                          Change
+                        </button>
+                      </label>
+                      {!phoneNumberRegex.test(phone) ? (
+                        <p className="pt-1 text-xs ">
+                          Phone number must be in correct format
+                        </p>
+                      ) : (
+                        <p className="animate-slideIn flex transform items-center pt-1 text-xs text-green-400 transition-transform">
+                          Correct phone number format
+                          <CheckmarkIcon
+                            size={13}
+                            className="ml-1 mt-1 text-green-400"
+                          />
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <ul>
-                    <li>Email: {email}</li>
-                    <li>Username: {username}</li>
-                    <li>Phone Number: {number || 'Not yet added'}</li>
+                  <ul className="rounded-md bg-base-200 p-2">
+                    <h2 className="mb-2 text-xl">Personal Details</h2>
+                    <li className="font-semibold">Email: {email}</li>
+                    <li className="font-semibold">Username: {username}</li>
+                    <li className="font-semibold">
+                      Phone Number: {number || 'Not yet added'}
+                    </li>
                   </ul>
                 </form>
                 <div>

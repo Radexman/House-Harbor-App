@@ -39,6 +39,8 @@ function AppContextProvider({ children }: AppContextPropTypes) {
   const [offerListings, setOfferListings] = useState<FetchedDataTypes[]>([]);
   const [lastFetchedListing, setLastFetchedListing] =
     useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [lastFetchedOfferListing, setLastFetchedOfferListing] =
+    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [singleListing, setSingleListing] = useState<ListingType>();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -106,7 +108,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         listingsRef,
         where('type', '==', category),
         orderBy('timestamp', 'desc'),
-        limit(1)
+        limit(10)
       );
 
       // Execute query
@@ -134,6 +136,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
   // Pagination / Load more
   const onFetchMoreListings = async (category: string | undefined) => {
     try {
+      setIsLoading(true);
       // Get reference
       const listingsRef = collection(db, 'listings');
 
@@ -143,7 +146,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         where('type', '==', category),
         orderBy('timestamp', 'desc'),
         startAfter(lastFetchedListing),
-        limit(1)
+        limit(10)
       );
 
       // Execute query
@@ -162,6 +165,7 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       });
 
       setListings((prevState) => [...prevState, ...listingsArr]);
+      setIsLoading(false);
     } catch (error) {
       toast.error('Could not fetch listings');
     }
@@ -186,6 +190,9 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       // Execute query
       const querySnap = await getDocs(q);
 
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchedOfferListing(lastVisible);
+
       const listingsArr: FetchedDataTypes[] = [];
 
       querySnap.forEach((doc) => {
@@ -196,6 +203,45 @@ function AppContextProvider({ children }: AppContextPropTypes) {
       });
 
       setOfferListings(listingsArr);
+      setIsLoading(false);
+    } catch (error) {
+      toast.error('Could not fetch listings');
+    }
+  };
+
+  // Pagination / Load more offer listings
+  const onFetchMoreOffersListings = async () => {
+    try {
+      setIsLoading(true);
+
+      // Get reference
+      const listingsRef = collection(db, 'listings');
+
+      // Create a query
+      const q = query(
+        listingsRef,
+        where('offer', '==', true),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchedOfferListing),
+        limit(10)
+      );
+
+      // Execute query
+      const querySnap = await getDocs(q);
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1];
+      setLastFetchedOfferListing(lastVisible);
+
+      const listingsArr: FetchedDataTypes[] = [];
+
+      querySnap.forEach((doc) => {
+        return listingsArr.push({
+          id: doc.id,
+          data: doc.data() as ListingType,
+        });
+      });
+
+      setOfferListings((prevState) => [...prevState, ...listingsArr]);
       setIsLoading(false);
     } catch (error) {
       toast.error('Could not fetch listings');
@@ -257,9 +303,11 @@ function AppContextProvider({ children }: AppContextPropTypes) {
         offerListings,
         singleListing,
         lastFetchedListing,
+        lastFetchedOfferListing,
         onGoogleClick,
         fetchListings,
         onFetchMoreListings,
+        onFetchMoreOffersListings,
         fetchOffersListings,
         fetchSingleListing,
         handleLogout,

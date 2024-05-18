@@ -33,15 +33,28 @@ function ListingItem({ listing, id, onDelete }: ListingItemProps) {
         <div>
           <p className="text-sm">{location}</p>
           <h2 className="text-xl font-bold md:text-2xl">{name}</h2>
-          <p className="pt-1 text-sm font-semibold text-primary">
-            $
-            {offer
-              ? discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-              : regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            {type === 'rent' && ' / Month'}
-          </p>
-
-          <div className="flex justify-between">
+          <div className="flex items-center">
+            <p className="pt-1 text-sm font-semibold text-primary">
+              $
+              {offer
+                ? discountedPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                : regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              {type === 'rent' && ' / Month'}
+            </p>
+            {onDelete && (
+              <DeleteIcon
+                className="ml-2 mt-1 text-xl text-red-500"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onDelete(id);
+                }}
+              />
+            )}
+          </div>
+          <div className="">
             <div>
               <div className="flex items-center gap-1">
                 <BedroomIcon />
@@ -56,16 +69,6 @@ function ListingItem({ listing, id, onDelete }: ListingItemProps) {
                 </p>
               </div>
             </div>
-            {onDelete && (
-              <DeleteIcon
-                className="text-xl text-red-500"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onDelete(id);
-                }}
-              />
-            )}
           </div>
         </div>
       </Link>

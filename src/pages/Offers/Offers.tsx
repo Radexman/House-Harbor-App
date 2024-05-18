@@ -5,8 +5,13 @@ import ListingItem from '../../components/ListingItem/ListingItem';
 import Spinner from '../../components/Spinner/Spinner';
 
 function Offers() {
-  const { isLoading, offerListings, fetchOffersListings } =
-    useContext(AppContext);
+  const {
+    isLoading,
+    offerListings,
+    fetchOffersListings,
+    onFetchMoreOffersListings,
+    lastFetchedOfferListing,
+  } = useContext(AppContext);
 
   useEffect(() => {
     fetchOffersListings();
@@ -31,6 +36,15 @@ function Offers() {
           ))}
         </ul>
       </main>
+      {lastFetchedOfferListing && (
+        <button
+          onClick={onFetchMoreOffersListings}
+          type="button"
+          className="btn btn-outline btn-primary btn-wide mt-4"
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 }
