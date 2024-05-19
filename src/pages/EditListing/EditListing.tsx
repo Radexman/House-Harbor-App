@@ -103,7 +103,7 @@ function EditListing() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setListing(docSnap.data() as ListingType);
-        setFormData({ ...docSnap.data(), location: docSnap.data().location });
+        setFormData({ ...docSnap.data(), address: docSnap.data().location });
         setIsLoading(false);
       } else {
         navigate('/');
