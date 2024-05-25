@@ -38,8 +38,8 @@ Check out the live demo [https://house-harbor-app.netlify.app/sign-in].
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/house-harbor.git
-cd house-harbor
+git clone https://github.com/Radexman/House-Harbor-App.git
+cd House-Harbor-App
 ```
 
 ### Install Dependencies
