@@ -51,7 +51,7 @@ function Contact() {
       >
         <div className="hero-overlay bg-opacity-80 sm:bg-opacity-70" />
         <div className="container">
-          <div className="mx-auto max-w-2xl rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
+          <div className="mx-auto rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
             <header>
               <h1 className="text-3xl font-semibold">
                 Contanct {landlord.username}
@@ -62,7 +62,7 @@ function Contact() {
               </h2>
             </header>
             <main>
-              <form className="card-body my-4">
+              <form className=" my-4">
                 <div>
                   <p>
                     Write a message that will be sent to landlord&apos;s email
@@ -80,32 +80,34 @@ function Contact() {
                     />
                   </label>
                 </div>
-                <a
-                  href={`mailto:${landlord.email}?Subject=${searchParams.get(
-                    'listingName'
-                  )}&body=${message}`}
-                  className="w-full"
-                >
-                  <button
-                    type="button"
-                    className={`btn btn-primary w-full ${
-                      !message && 'btn-disabled'
-                    }`}
+                <div className="space-x-0 space-y-2 md:space-x-4">
+                  <a
+                    href={`mailto:${landlord.email}?Subject=${searchParams.get(
+                      'listingName'
+                    )}&body=${message}`}
+                    className="w-full"
                   >
-                    Send Message
-                  </button>
-                </a>
-                {landlord.phoneNumber === null ||
-                landlord.phoneNumber === undefined ? (
-                  <p>Landlord didn&apos;t provided phone number</p>
-                ) : (
-                  <a href={`tel:+${landlord.phoneNumber}`} className="w-full">
                     <button
                       type="button"
-                      className="btn btn-outline btn-primary w-full"
-                    >{`Call ${landlord.username}`}</button>
+                      className={`btn btn-primary w-full md:btn-wide ${
+                        !message && 'btn-disabled'
+                      }`}
+                    >
+                      Send Message
+                    </button>
                   </a>
-                )}
+                  {landlord.phoneNumber === null ||
+                  landlord.phoneNumber === undefined ? (
+                    <p>Landlord didn&apos;t provided phone number</p>
+                  ) : (
+                    <a href={`tel:+${landlord.phoneNumber}`} className="w-full">
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-primary mt-4  w-full md:btn-wide"
+                      >{`Call ${landlord.username}`}</button>
+                    </a>
+                  )}
+                </div>
               </form>
             </main>
           </div>

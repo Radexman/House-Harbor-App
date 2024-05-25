@@ -36,6 +36,11 @@ function Category() {
         <h1 className="text-3xl font-semibold uppercase tracking-wide">{`Places For ${
           params.categoryName === 'sale' ? 'Sale' : 'Rent'
         }`}</h1>
+        <p>
+          {params.categoryName === 'sale'
+            ? 'Discover your dream home for sale here. Explore a variety of houses on the market, from charming cottages to luxurious estates.'
+            : '                  Find your perfect rental home here. Explore a range of houses available for rent, from cozy apartments to spacious family homes.'}
+        </p>
       </header>
       <div>
         <main className="min-h-screen space-y-2">
