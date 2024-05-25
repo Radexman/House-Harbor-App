@@ -18,8 +18,10 @@ import Footer from './components/layout/Footer/Footer';
 import BottomNavbar from './components/layout/BottomNavbar/BottomNavbar';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import AppContextProvider from './context/AppContext';
+import useScrollToTop from './hooks/useScrollToTop';
 
 function App() {
+  useScrollToTop();
   return (
     <AppContextProvider>
       <div className="overflow-hidden">
