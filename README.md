@@ -26,7 +26,7 @@ Welcome to **House Harbor** - a full-stack property rental service designed to s
 
 ## Demo
 
-Check out the live demo [https://house-harbor-app.netlify.app/sign-in](#).
+Check out the live demo [https://house-harbor-app.netlify.app/sign-in].
 
 ## Installation
 
