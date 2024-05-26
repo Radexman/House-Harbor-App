@@ -30,7 +30,7 @@ function SwiperComponent({ imagesUrls }: SwiperComponentProps) {
       {imagesUrls.map((imageUrl) => (
         <SwiperSlide key={imageUrl}>
           <div
-            className="h-64 w-full bg-cover bg-center"
+            className="h-[50vh] w-full bg-cover bg-center"
             style={{ backgroundImage: `url(${imageUrl}` }}
           />
         </SwiperSlide>

@@ -8,7 +8,6 @@ import {
   FaMobile as PhoneIcon,
 } from 'react-icons/fa';
 import { IoHome as HomeIcon } from 'react-icons/io5';
-import { DevTool } from '@hookform/devtools';
 import { IoIosCheckmarkCircle as CheckmarkIcon } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
@@ -46,7 +45,8 @@ function Profile() {
 
   const [listings, setListings] = useState<FetchedDataTypes[] | null>();
   const [number, setNumber] = useState();
-  const { register, watch, control } = useForm({
+  const [isTextVisible, setIsTextVisible] = useState(false);
+  const { register, watch } = useForm({
     mode: 'onChange',
   });
   const phoneNumberRegex =
@@ -134,6 +134,10 @@ function Profile() {
     navigate(`/edit-listing/${id}`);
   };
 
+  const toggleText = () => {
+    setIsTextVisible((prevState) => !prevState);
+  };
+
   return (
     <div>
       {isLoading ? <Spinner /> : null}
@@ -195,17 +199,6 @@ function Profile() {
                       )}
                     </div>
                     <div className="form-control relative  w-full md:w-[50%]">
-                      <div
-                        data-tip="Correct number patterns +1 (123) 456-7890,
-                123-456-7890,
-                123 456 7890,
-                1234567890,
-                +1234567890,
-                01234567890"
-                        className="text-md badge tooltip absolute -top-8 right-0 flex  h-6 w-6 items-center justify-center rounded-full border border-primary font-semibold"
-                      >
-                        ?
-                      </div>
                       <label
                         htmlFor="phone"
                         className="input input-bordered flex items-center gap-2"
@@ -232,9 +225,27 @@ function Profile() {
                         </button>
                       </label>
                       {!phoneNumberRegex.test(phone) ? (
-                        <p className="pt-1 text-xs ">
-                          Phone number must be in correct format
-                        </p>
+                        <div>
+                          <p className="pt-1 text-xs">
+                            Phone number must be in
+                            <button
+                              type="button"
+                              onClick={toggleText}
+                              className="pl-1 underline duration-200 hover:text-primary"
+                            >
+                              correct format
+                            </button>
+                          </p>
+                          <p
+                            className={`${
+                              isTextVisible ? 'block' : 'hidden'
+                            } text-xs`}
+                          >
+                            Correct number patterns: +1 (123) 456-7890,
+                            123-456-7890, 123 456 7890, 1234567890, +1234567890,
+                            01234567890
+                          </p>
+                        </div>
                       ) : (
                         <p className="animate-slideIn flex transform items-center pt-1 text-xs text-green-400 transition-transform">
                           Correct phone number format
@@ -297,7 +308,6 @@ function Profile() {
           </div>
         </div>
       </main>
-      <DevTool control={control} />
     </div>
   );
 }

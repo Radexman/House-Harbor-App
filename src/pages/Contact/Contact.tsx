@@ -51,14 +51,14 @@ function Contact() {
       >
         <div className="hero-overlay bg-opacity-80 sm:bg-opacity-70" />
         <div className="container">
-          <div className="mx-auto rounded-md p-4 sm:bg-primary-content sm:bg-opacity-30 ">
+          <div className="mx-auto max-w-5xl rounded-md p-6 sm:bg-primary-content sm:bg-opacity-30 ">
             <header>
               <h1 className="text-3xl font-semibold">
-                Contanct {landlord.username}
+                Contact {landlord.username}
               </h1>
               <h2 className="pt-4 text-xl font-semibold">
                 Send mail or call landlord to know about {landlord.username}
-                &apos;s listing {searchParams.get('listingName')}
+                &apos;s listing: {searchParams.get('listingName')}
               </h2>
             </header>
             <main>

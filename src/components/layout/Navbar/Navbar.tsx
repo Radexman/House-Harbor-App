@@ -5,7 +5,7 @@ function Navbar() {
     <nav className="hidden md:block">
       <div className="navbar h-[5vh] bg-base-100 shadow-lg">
         <div className="flex-1">
-          <Link to="/" className="text-xl font-semibold ">
+          <Link to="/" className="font-logo text-3xl font-bold tracking-wider">
             House Harbor
           </Link>
         </div>

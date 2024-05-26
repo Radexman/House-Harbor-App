@@ -252,12 +252,18 @@ function CreateListing() {
   return (
     <div className="container mx-auto mb-16 p-4">
       {isLoading ? <Spinner /> : null}
-      <header className="mb-4">
+      <header className="mb-4 text-center">
         <h1 className="text-3xl font-semibold tracking-wide">
           Create a Listing
         </h1>
       </header>
-      <main>
+      <main className="mx-auto max-w-3xl">
+        <p className="pb-4 text-center md:text-justify">
+          Easily create and manage property listings by providing details such
+          as name, price, location, furnishing status, property type, number of
+          bedrooms and bathrooms, and amenities. Ensure your listing is detailed
+          and appealing to attract potential buyers or renters.
+        </p>
         <form onSubmit={handleFormSubmit}>
           <div className="flex flex-col space-y-4">
             <p className="text-lg font-semibold">Sell / Rent</p>
