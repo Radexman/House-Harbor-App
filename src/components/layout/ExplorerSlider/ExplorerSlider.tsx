@@ -75,7 +75,7 @@ function ExplorerSlider() {
                     <p className="relative top-[35%] w-full bg-black bg-opacity-70 p-6 text-xl font-semibold tracking-wide text-slate-100 md:w-[70%]">
                       {`${data.name}, ${data.location}`}
                     </p>
-                    <div className="badge relative bottom-[-36%] p-4 text-lg text-primary">
+                    <div className="text-md badge relative bottom-[-36%] p-4 text-primary md:text-lg">
                       {`$${
                         data.discountedPrice ??
                         refactorCurrency(data.regularPrice)
