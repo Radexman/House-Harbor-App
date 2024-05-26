@@ -69,7 +69,7 @@ function ExplorerSlider() {
                   onClick={() => navigate(`/category/${data.type}/${id}`)}
                 >
                   <div
-                    className="h-[50vh] w-full cursor-pointer rounded-md bg-cover bg-center"
+                    className="h-60 w-full cursor-pointer rounded-md bg-cover bg-center md:h-[50vh]"
                     style={{ backgroundImage: `url(${data.imageUrls[0]}` }}
                   >
                     <p className="relative top-[35%] w-full bg-black bg-opacity-70 p-6 text-xl font-semibold tracking-wide text-slate-100 md:w-[70%]">
