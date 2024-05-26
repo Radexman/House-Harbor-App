@@ -69,13 +69,13 @@ function ExplorerSlider() {
                   onClick={() => navigate(`/category/${data.type}/${id}`)}
                 >
                   <div
-                    className="h-64 w-full cursor-pointer rounded-md bg-cover bg-center"
+                    className="h-[50vh] w-full cursor-pointer rounded-md bg-cover bg-center"
                     style={{ backgroundImage: `url(${data.imageUrls[0]}` }}
                   >
-                    <p className="relative top-[35%] w-[70%] bg-black bg-opacity-70 p-4 text-xl font-semibold tracking-wide text-slate-100">
+                    <p className="relative top-[35%] w-full bg-black bg-opacity-70 p-6 text-xl font-semibold tracking-wide text-slate-100 md:w-[70%]">
                       {`${data.name}, ${data.location}`}
                     </p>
-                    <div className="badge relative bottom-[-35%] p-2">
+                    <div className="badge relative bottom-[-36%] p-4 text-lg text-primary">
                       {`$${
                         data.discountedPrice ??
                         refactorCurrency(data.regularPrice)

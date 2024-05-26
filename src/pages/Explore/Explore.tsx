@@ -12,7 +12,7 @@ function Explore() {
         </h1>
       </header>
       <main className="min-h-screen">
-        <p className="py-2 text-justify md:text-left">
+        <p className="py-1 text-justify md:text-left">
           Welcome to our House Harbor! Whether you&apos;re in search of your
           dream home to buy or a cozy place to rent, explore our diverse
           selection of listings. Browse through our collection of available
